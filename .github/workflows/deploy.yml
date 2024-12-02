@@ -31,7 +31,6 @@ jobs:
       - name: Build snapshot
 #       if: ${{ steps.changed-files.outputs.any_changed == 'true' }}
         run: |
-          cd infrastructure
           packer init "$PACKER_FILE"
           packer build "$PACKER_FILE"
 

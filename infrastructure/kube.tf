@@ -7,7 +7,7 @@ module "kube-hetzner" {
     hcloud = hcloud
   }
 
-  source = "kube-hetzner/kube-hetzner/hcloud"
+  source       = "kube-hetzner/kube-hetzner/hcloud"
   hcloud_token = var.hcloud_token
 
   # Note that some values, notably "location" and "public_key" have no effect after initializing the cluster.
@@ -18,10 +18,10 @@ module "kube-hetzner" {
   # ssh_port = 2222
 
   # * Your ssh public key
-  ssh_public_key = file("~/.ssh/hetzner_workshop.pub")
+  ssh_public_key = var.ssh_public_key
   # * Your private key must be "ssh_private_key = null" when you want to use ssh-agent for a Yubikey-like device authentication or an SSH key-pair with a passphrase.
   # For more details on SSH see https://github.com/kube-hetzner/kube-hetzner/blob/master/docs/ssh.md
-  ssh_private_key = file("~/.ssh/hetzner_workshop")
+  ssh_private_key = var.ssh_private_key
   # You can add additional SSH public Keys to grant other team members root access to your cluster nodes.
   # ssh_additional_public_keys = []
 

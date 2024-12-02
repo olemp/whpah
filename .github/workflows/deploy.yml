@@ -1,0 +1,80 @@
+name: Deploy platform
+
+on:
+  push:
+    branches:
+      - master
+
+env:
+  PROJECT_NAME: 'platform'
+
+jobs:
+  packer:
+    name: Build snapshots with Packer
+    runs-on: ubuntu-latest
+    env:
+      PACKER_FILE: 'infrastructure/hcloud-microos-snapshots.pkr.hcl'
+      HCLOUD_TOKEN: ${{ secrets.HCLOUD_TOKEN }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v45
+        with:
+          files: ${{ env.PACKER_FILE }}
+
+      - name: Setup Packer
+        uses: hashicorp/setup-packer@v3
+
+      - name: Build snapshot
+        if: ${{ steps.changed-files.outputs.any_changed == 'true' }}
+        run: |
+          cd infrastructure
+          packer init "$PACKER_FILE"
+          packer build "$PACKER_FILE"
+
+  hcloud:
+    name: Create Hetzner Cloud context
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup hcloud CLI
+        uses: hetznercloud/setup-hcloud@v1
+
+      - name: Create Hetzner Cloud context
+        run: |
+          hcloud context use "$PROJECT_NAME" || hcloud context create "$PROJECT_NAME"
+
+  terraform:
+    name: Deploy infrastructure with Terraform
+    runs-on: ubuntu-latest
+    needs: [packer, hcloud]
+    env:
+      TF_CLOUD_ORGANIZATION: ${{ github.repository_owner }}
+      TF_WORKSPACE: ${{ env.PROJECT_NAME }}
+      TF_API_TOKEN: ${{ secrets.TF_API_TOKEN }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Upload Terraform configuration
+        uses: hashicorp/tfc-workflows-github/actions/upload-configuration@v1.2.0
+        id: apply-upload
+        with:
+          workspace: ${{ env.TF_WORKSPACE }}
+          directory: 'infrastructure'
+
+      - name: Create Terraform run
+        uses: hashicorp/tfc-workflows-github/actions/create-run@v1.2.0
+        id: apply-run
+        with:
+          workspace: ${{ env.TF_WORKSPACE }}
+          configuration_version: ${{ steps.apply-upload.outputs.configuration_version_id }}
+
+      - name: Apply Terraform changes
+        uses: hashicorp/tfc-workflows-github/actions/apply-run@v1.2.0
+        if: fromJSON(steps.apply-run.outputs.payload).data.attributes.actions.IsConfirmable
+        with:
+          run: ${{ steps.apply-run.outputs.run_id }}
+          comment: "Applying changes from GitHub Actions, commit ${{ github.sha }}"

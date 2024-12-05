@@ -1,5 +1,11 @@
 terraform {
-  required_version = ">= 1.5.0"
+  cloud {
+    organization = "bakseter"
+
+    workspaces {
+      name = "platform"
+    }
+  }
 
   required_providers {
     hcloud = {
@@ -7,4 +13,6 @@ terraform {
       version = ">= 1.43.0"
     }
   }
+
+  required_version = ">= 1.5.0"
 }

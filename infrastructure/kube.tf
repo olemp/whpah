@@ -633,8 +633,8 @@ module "kube-hetzner" {
   #   "trust anchor --store /root/ca.crt",
   # ]
 
-  # Structured authentication configuration. Multiple authentication providers support requires v1.30+ of 
-  # kubernetes.  
+  # Structured authentication configuration. Multiple authentication providers support requires v1.30+ of
+  # kubernetes.
   # https://kubernetes.io/docs/reference/access-authn-authz/authentication/#using-authentication-configuration
   #
   # authentication_config = <<-EOT
@@ -886,10 +886,10 @@ module "kube-hetzner" {
   # See https://github.com/kube-hetzner/terraform-hcloud-kube-hetzner/issues/349
   # When "false". The kubeconfig file can instead be created by executing: "terraform output --raw kubeconfig > cluster_kubeconfig.yaml"
   # Always be careful to not commit this file!
-  # create_kubeconfig = false
+  create_kubeconfig = false
 
   # Don't create the kustomize backup. This can be helpful for automation.
-  # create_kustomization = false
+  create_kustomization = false
 
   # Export the values.yaml files used for the deployment of traefik, longhorn, cert-manager, etc.
   # This can be helpful to use them for later deployments like with ArgoCD.

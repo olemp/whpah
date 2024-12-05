@@ -63,6 +63,5 @@ jobs:
         uses: hashicorp/tfc-workflows-github/actions/apply-run@v1.2.0
         if: fromJSON(steps.apply-run.outputs.payload).data.attributes.actions.IsConfirmable
         with:
-          workspace: ${{ env.PROJECT_NAME }}
           run: ${{ steps.apply-run.outputs.run_id }}
           comment: "Applying changes from GitHub Actions, commit ${{ github.sha }}"

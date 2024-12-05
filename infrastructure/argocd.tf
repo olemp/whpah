@@ -21,7 +21,9 @@ resource "helm_release" "argocd" {
 
   atomic           = true
   create_namespace = true
+  force_update     = true
   namespace        = "argocd"
+  recreate_pods    = true
 
   dynamic "set" {
     for_each = local.repositories

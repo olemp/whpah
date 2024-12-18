@@ -38,7 +38,7 @@ resource "kubernetes_manifest" "cluster-issuer" {
 resource "kubernetes_ingress_v1" "api" {
   metadata {
     name      = "api"
-    namespace = "traefik"
+    namespace = "531"
 
     annotations = {
       "cert-manager.io/issuer" : local.issuer_name

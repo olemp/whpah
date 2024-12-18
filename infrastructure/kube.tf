@@ -533,7 +533,7 @@ module "kube-hetzner" {
   # ]
 
   # If you want to disable the metric server set this to "false". Default is "true".
-  enable_metrics_server = false
+  # enable_metrics_server = false
 
   # If you want to enable the k3s built-in local-storage controller set this to "true". Default is "false".
   # enable_local_storage = false

@@ -3,13 +3,14 @@ locals {
   issuer_secret_name = "${local.issuer_name}-issuer-secret"
 }
 
-resource "kubernetes_manifest" "cluster-issuer" {
+resource "kubernetes_manifest" "issuer" {
   manifest = {
     apiVersion = "cert-manager.io/v1"
-    kind       = "ClusterIssuer"
+    kind       = "Issuer"
 
     metadata = {
       name = local.issuer_name
+      namespace = "531"
     }
 
     spec = {

@@ -1,7 +1,3 @@
-provider "hcloud" {
-  token = var.hcloud_token
-}
-
 module "kube-hetzner" {
   providers = {
     hcloud = hcloud

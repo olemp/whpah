@@ -1,11 +1,3 @@
-provider "kubernetes" {
-  host = module.kube-hetzner.kubeconfig_data.host
-
-  client_certificate     = module.kube-hetzner.kubeconfig_data.client_certificate
-  client_key             = module.kube-hetzner.kubeconfig_data.client_key
-  cluster_ca_certificate = module.kube-hetzner.kubeconfig_data.cluster_ca_certificate
-}
-
 locals {
   issuer_name        = "api"
   issuer_secret_name = "${local.issuer_name}-issuer-secret"
@@ -69,7 +61,7 @@ resource "kubernetes_ingress_v1" "api" {
 
           backend {
             service {
-              name = "531" # TODO: change
+              name = "svc-531" # TODO: change
 
               port {
                 name = "web"

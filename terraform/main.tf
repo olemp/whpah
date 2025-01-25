@@ -9,17 +9,16 @@ module "kube-hetzner" {
 
   source = "kube-hetzner/kube-hetzner/hcloud"
 
-  hcloud_token = var.hcloud_token
-
+  hcloud_token    = var.hcloud_token
   ssh_public_key  = var.ssh_public_key
   ssh_private_key = var.ssh_private_key
 
-  network_region = "eu-central" # change to `us-east` if location is ash
+
   control_plane_nodepools = [
     {
       name        = "control-plane",
       server_type = "cx22",
-      location    = "hel1",
+      location    = var.location
       labels      = [],
       taints      = [],
       count       = 1
@@ -28,17 +27,18 @@ module "kube-hetzner" {
 
   agent_nodepools = [
     {
-      name        = "agent-small",
+      name        = "agent",
       server_type = "cx22",
-      location    = "fsn1",
+      location    = var.location
       labels      = [],
       taints      = [],
       count       = 1
     }
   ]
 
-  load_balancer_type     = "lb11"
-  load_balancer_location = "hel1"
+  network_region         = "eu-central" # locations 'fns1', 'nbg1' and 'hel1'
+  load_balancer_type     = var.load_balancer_sku
+  load_balancer_location = var.location
 
   automatically_upgrade_k3s = false
   system_upgrade_use_drain  = true
@@ -89,7 +89,6 @@ ports:
   web:
     redirectTo:
       port: websecure
-
     forwardedHeaders:
       trustedIPs:
       - 127.0.0.1/32
@@ -123,9 +122,9 @@ service:
     load-balancer.hetzner.cloud/health-check-retries: "3"
     load-balancer.hetzner.cloud/health-check-timeout: 10s
     load-balancer.hetzner.cloud/ipv6-disabled: "false"
-    load-balancer.hetzner.cloud/location: fsn1
+    load-balancer.hetzner.cloud/location: ${var.location}
     load-balancer.hetzner.cloud/name: k3s-traefik
-    load-balancer.hetzner.cloud/type: lb11
+    load-balancer.hetzner.cloud/type: ${var.load_balancer_sku}
     load-balancer.hetzner.cloud/use-private-ip: "true"
     load-balancer.hetzner.cloud/uses-proxyprotocol: "true"
   enabled: true
@@ -154,7 +153,6 @@ provider "helm" {
   }
 }
 */
-
 
 module "five31" {
   depends_on = [module.kube-hetzner]

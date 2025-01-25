@@ -54,7 +54,7 @@ resource "kubernetes_ingress_v1" "ingress" {
     }
 
     rule {
-      host = "api.bakseter.net"
+      host = "${var.subdomain}.bakseter.net"
 
       http {
         path {

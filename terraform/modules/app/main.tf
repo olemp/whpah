@@ -1,6 +1,7 @@
-locals {
-  issuer_name        = "api"
-  issuer_secret_name = "${local.issuer_name}-issuer-secret"
+resource "kubernetes_namespace_v1" "namespace" {
+  metadata {
+    name = var.app_name
+  }
 }
 
 resource "kubernetes_manifest" "issuer" {
@@ -9,8 +10,8 @@ resource "kubernetes_manifest" "issuer" {
     kind       = "Issuer"
 
     metadata = {
-      name = local.issuer_name
-      namespace = "531"
+      name      = "${var.app_name}-issuer"
+      namespace = kubernetes_namespace_v1.namespace.metadata[0].name
     }
 
     spec = {
@@ -19,7 +20,7 @@ resource "kubernetes_manifest" "issuer" {
         server = "https://acme-staging-v02.api.letsencrypt.org/directory"
 
         privateKeySecretRef = {
-          name = local.issuer_secret_name
+          name = "${var.app_name}-tls"
         }
 
         solvers = [
@@ -36,20 +37,20 @@ resource "kubernetes_manifest" "issuer" {
   }
 }
 
-resource "kubernetes_ingress_v1" "api" {
+resource "kubernetes_ingress_v1" "ingress" {
   metadata {
-    name      = "api"
-    namespace = "531"
+    name      = "${var.app_name}-ingress"
+    namespace = kubernetes_namespace_v1.namespace.metadata[0].name
 
     annotations = {
-      "cert-manager.io/issuer" : local.issuer_name
+      "cert-manager.io/issuer" : "${var.app_name}-issuer"
     }
   }
 
   spec {
     tls {
-      hosts       = ["api.bakseter.net"]
-      secret_name = local.issuer_secret_name
+      hosts       = ["${var.subdomain}.bakseter.net"]
+      secret_name = "${var.app_name}-tls"
     }
 
     rule {
@@ -62,10 +63,10 @@ resource "kubernetes_ingress_v1" "api" {
 
           backend {
             service {
-              name = "svc-531" # TODO: change
+              name = "${var.app_name}-service"
 
               port {
-                name = "web"
+                number = 8000
               }
             }
           }

@@ -17,3 +17,5 @@ hcloud context create platform
 **5.** Create a ED25519 SSH key pair and save them as the two Terraform Cloud variables `ssh_public_key` and `ssh_private_key`.
 
 **6.** Push to `master`, triggering GitHub Actions to build and deploy the platform using Packer and Terraform.
+
+**7.** Uncomment the two provider blocks for Kubernetes and Helm in `main.tf`, and add your applications to the list in the `app`-module.

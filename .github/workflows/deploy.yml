@@ -13,7 +13,7 @@ jobs:
     name: Build snapshots with Packer
     runs-on: ubuntu-latest
     env:
-      PACKER_FILE: 'infrastructure/hcloud-microos-snapshots.pkr.hcl'
+      PACKER_FILE: 'terraform/hcloud-microos-snapshots.pkr.hcl'
       HCLOUD_TOKEN: ${{ secrets.HCLOUD_TOKEN }}
     steps:
       - name: Checkout repository
@@ -50,7 +50,7 @@ jobs:
         id: apply-upload
         with:
           workspace: ${{ env.PROJECT_NAME }}
-          directory: 'infrastructure'
+          directory: 'terraform'
 
       - name: Create Terraform run
         uses: hashicorp/tfc-workflows-github/actions/create-run@v1.2.0

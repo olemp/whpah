@@ -13,7 +13,7 @@ resource "vercel_project" "next_project" {
 
 resource "vercel_project_domain" "domain" {
   project_id = vercel_project.next_project.id
-  domain     = "${var.name}.bakseter.net"
+  domain     = "${var.name}-bakseter-net.vercel.app"
 }
 
 resource "vercel_project_environment_variables" "environment" {

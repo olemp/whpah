@@ -19,11 +19,11 @@ resource "vercel_project_domain" "domain" {
 resource "vercel_project_environment_variables" "environment" {
   project_id = vercel_project.next_project.id
   variables = [
-    for key, value in var.environment
+    for env in var.environment
     : {
-      key    = key
-      value  = value.value
-      target = value.target
+      key    = env.key
+      value  = env.value
+      target = env.target
     }
   ]
 }
@@ -31,11 +31,11 @@ resource "vercel_project_environment_variables" "environment" {
 resource "vercel_project_environment_variables" "secret_environment" {
   project_id = vercel_project.next_project.id
   variables = [
-    for key, value in var.secret_environment
+    for env in var.secret_environment
     : {
-      key       = key
-      value     = value.value
-      target    = value.target
+      key       = env.key
+      value     = env.value
+      target    = env.target
       sensitive = true
     }
   ]

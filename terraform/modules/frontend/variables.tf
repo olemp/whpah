@@ -20,7 +20,7 @@ variable "environment" {
 variable "secret_environment" {
   type = map(object({
     value   = string
-    targets = optional(set(string), ["production", "preview", "development"])
+    targets = optional(set(string), ["production", "preview"])
   }))
   sensitive = true
 }

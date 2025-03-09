@@ -4,20 +4,111 @@ resource "kubernetes_namespace_v1" "namespace" {
   }
 }
 
+resource "kubernetes_deployment_v1" "deployment" {
+  metadata {
+    name      = var.app_name
+    namespace = kubernetes_namespace_v1.namespace.metadata[0].name
+  }
+
+  spec {
+    replicas = 1
+
+    selector {
+      match_labels = {
+        app = var.app_name
+      }
+    }
+
+    template {
+      metadata {
+        labels = {
+          app = var.app_name
+        }
+      }
+
+      spec {
+        container {
+          name  = var.app_name
+          image = var.image
+
+          port {
+            container_port = var.port
+          }
+
+          dynamic "env" {
+            for_each = var.environment
+
+            content {
+              name  = env.key
+              value = env.value
+            }
+          }
+
+          dynamic "env" {
+            for_each = var.secret_environment
+
+            content {
+              name = env.key
+
+              value_from {
+                secret_key_ref {
+                  name = var.app_name
+                  key  = env.key
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+resource "kubernetes_secret_v1" "secret" {
+  count = length(var.secret_environment) > 0 ? 1 : 0
+
+  metadata {
+    name      = var.app_name
+    namespace = kubernetes_namespace_v1.namespace.metadata[0].name
+  }
+
+  data = {
+    for key, value in var.secret_environment : key => value
+  }
+}
+
+resource "kubernetes_service_v1" "service" {
+  metadata {
+    name      = var.app_name
+    namespace = kubernetes_namespace_v1.namespace.metadata[0].name
+  }
+
+  spec {
+    selector = {
+      app = var.app_name
+    }
+
+    port {
+      port        = 80
+      target_port = var.port
+    }
+  }
+}
+
 resource "kubernetes_manifest" "issuer" {
   manifest = {
     apiVersion = "cert-manager.io/v1"
     kind       = "Issuer"
 
     metadata = {
-      name      = "${var.app_name}-issuer"
+      name      = var.app_name
       namespace = kubernetes_namespace_v1.namespace.metadata[0].name
     }
 
     spec = {
       acme = {
         email  = "andreas_tkd@hotmail.com"
-        server = "https://acme-staging-v02.api.letsencrypt.org/directory"
+        server = "https://acme-v02.api.letsencrypt.org/directory"
 
         privateKeySecretRef = {
           name = "${var.app_name}-tls"
@@ -39,11 +130,11 @@ resource "kubernetes_manifest" "issuer" {
 
 resource "kubernetes_ingress_v1" "ingress" {
   metadata {
-    name      = "${var.app_name}-ingress"
+    name      = var.app_name
     namespace = kubernetes_namespace_v1.namespace.metadata[0].name
 
     annotations = {
-      "cert-manager.io/issuer" : "${var.app_name}-issuer"
+      "cert-manager.io/issuer" : kubernetes_manifest.issuer.manifest.metadata.name
     }
   }
 
@@ -63,10 +154,10 @@ resource "kubernetes_ingress_v1" "ingress" {
 
           backend {
             service {
-              name = "${var.app_name}-service"
+              name = var.app_name
 
               port {
-                number = 8000
+                number = 80
               }
             }
           }

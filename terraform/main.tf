@@ -134,7 +134,6 @@ EOT
 
 // Uncomment the rest of this file after Kubernetes cluster has been created:
 
-/*
 provider "kubernetes" {
   host = module.kube-hetzner.kubeconfig_data.host
 
@@ -143,22 +142,26 @@ provider "kubernetes" {
   cluster_ca_certificate = module.kube-hetzner.kubeconfig_data.cluster_ca_certificate
 }
 
-provider "helm" {
-  kubernetes {
-    host = module.kube-hetzner.kubeconfig_data.host
+module "five31" {
+  source     = "./modules/app"
+  depends_on = [module.kube-hetzner]
 
-    client_certificate     = module.kube-hetzner.kubeconfig_data.client_certificate
-    client_key             = module.kube-hetzner.kubeconfig_data.client_key
-    cluster_ca_certificate = module.kube-hetzner.kubeconfig_data.cluster_ca_certificate
+  app_name  = "five31"
+  subdomain = "five31"
+  image     = "ghcr.io/bakseter/531/backend:latest"
+  port      = 8080
+
+  environment = {
+    "DATABASE_USERNAME" : "postgres",
+    "DATABASE_URL" : "jdbc:postgresql://${module.postgres.database_url}",
+  }
+
+  secret_environment = {
+    "DATABASE_PASSWORD" : module.postgres.database_password
   }
 }
-*/
 
-module "five31" {
+module "postgres" {
+  source     = "./modules/postgres"
   depends_on = [module.kube-hetzner]
-  source     = "./modules/app"
-  for_each   = tomap({})
-
-  app_name  = each.key
-  subdomain = each.value["subdomain"]
 }

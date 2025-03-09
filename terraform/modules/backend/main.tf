@@ -1,12 +1,16 @@
+locals {
+  host = "api.${var.name}.bakseter.net"
+}
+
 resource "kubernetes_namespace_v1" "namespace" {
   metadata {
-    name = var.app_name
+    name = var.name
   }
 }
 
 resource "kubernetes_deployment_v1" "deployment" {
   metadata {
-    name      = var.app_name
+    name      = var.name
     namespace = kubernetes_namespace_v1.namespace.metadata[0].name
   }
 
@@ -15,24 +19,24 @@ resource "kubernetes_deployment_v1" "deployment" {
 
     selector {
       match_labels = {
-        app = var.app_name
+        app = var.name
       }
     }
 
     template {
       metadata {
         labels = {
-          app = var.app_name
+          app = var.name
         }
       }
 
       spec {
         container {
-          name  = var.app_name
+          name  = var.name
           image = var.image
 
           port {
-            container_port = var.port
+            container_port = var.container_port
           }
 
           dynamic "env" {
@@ -52,7 +56,7 @@ resource "kubernetes_deployment_v1" "deployment" {
 
               value_from {
                 secret_key_ref {
-                  name = var.app_name
+                  name = var.name
                   key  = env.key
                 }
               }
@@ -64,11 +68,11 @@ resource "kubernetes_deployment_v1" "deployment" {
   }
 }
 
-resource "kubernetes_secret_v1" "secret" {
+resource "kubernetes_secret_v1" "secret-environment" {
   count = length(var.secret_environment) > 0 ? 1 : 0
 
   metadata {
-    name      = var.app_name
+    name      = "${var.name}-secret-environment"
     namespace = kubernetes_namespace_v1.namespace.metadata[0].name
   }
 
@@ -79,18 +83,18 @@ resource "kubernetes_secret_v1" "secret" {
 
 resource "kubernetes_service_v1" "service" {
   metadata {
-    name      = var.app_name
+    name      = var.name
     namespace = kubernetes_namespace_v1.namespace.metadata[0].name
   }
 
   spec {
     selector = {
-      app = var.app_name
+      app = var.name
     }
 
     port {
       port        = 80
-      target_port = var.port
+      target_port = var.container_port
     }
   }
 }
@@ -101,7 +105,7 @@ resource "kubernetes_manifest" "issuer" {
     kind       = "Issuer"
 
     metadata = {
-      name      = var.app_name
+      name      = var.name
       namespace = kubernetes_namespace_v1.namespace.metadata[0].name
     }
 
@@ -111,7 +115,7 @@ resource "kubernetes_manifest" "issuer" {
         server = "https://acme-v02.api.letsencrypt.org/directory"
 
         privateKeySecretRef = {
-          name = "${var.app_name}-tls"
+          name = "${var.name}-tls"
         }
 
         solvers = [
@@ -130,7 +134,7 @@ resource "kubernetes_manifest" "issuer" {
 
 resource "kubernetes_ingress_v1" "ingress" {
   metadata {
-    name      = var.app_name
+    name      = var.name
     namespace = kubernetes_namespace_v1.namespace.metadata[0].name
 
     annotations = {
@@ -140,12 +144,12 @@ resource "kubernetes_ingress_v1" "ingress" {
 
   spec {
     tls {
-      hosts       = ["${var.subdomain}.bakseter.net"]
-      secret_name = "${var.app_name}-tls"
+      hosts       = [local.host]
+      secret_name = "${var.name}-tls"
     }
 
     rule {
-      host = "${var.subdomain}.bakseter.net"
+      host = local.host
 
       http {
         path {
@@ -154,10 +158,10 @@ resource "kubernetes_ingress_v1" "ingress" {
 
           backend {
             service {
-              name = var.app_name
+              name = var.name
 
               port {
-                number = 80
+                number = kubernetes_service_v1.service.spec[0].port[0].port
               }
             }
           }

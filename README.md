@@ -21,3 +21,7 @@ hcloud context create platform
 
 **7.** Uncomment the two provider blocks for Kubernetes and Helm in `main.tf`, and add your applications to the list in the `app`-module.
 Push to `master` again to deploy the applications(s) to the newly created Kubernetes cluster.
+
+**8.** Create a Vercel project for each frontend. Paste `vercel_token` into TFC and uncomment Vercel provider block in `main.tf`.
+
+**9.** Create Google OAuth credentials and save them as `auth_google_id` and `auth_google_secret` in TFC.

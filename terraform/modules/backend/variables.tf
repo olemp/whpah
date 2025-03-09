@@ -1,8 +1,4 @@
-variable "app_name" {
-  type = string
-}
-
-variable "subdomain" {
+variable "name" {
   type = string
 }
 
@@ -10,7 +6,7 @@ variable "image" {
   type = string
 }
 
-variable "port" {
+variable "container_port" {
   type = number
 }
 

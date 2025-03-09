@@ -8,18 +8,18 @@ terraform {
   }
 
   required_providers {
-    helm = {
-      source  = "hashicorp/helm"
-      version = "~> 2.0"
-    }
-
     hcloud = {
       source  = "hetznercloud/hcloud"
-      version = ">= 1.43.0"
+      version = "~> 1.43"
     }
 
     kubernetes = {
       source  = "hashicorp/kubernetes"
+      version = "~> 2.0"
+    }
+
+    vercel = {
+      source  = "vercel/vercel"
       version = "~> 2.0"
     }
   }

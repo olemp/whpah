@@ -132,8 +132,8 @@ service:
 EOT
 }
 
-// Uncomment the rest of this file after Kubernetes cluster has been created:
 
+// Uncomment this block after cluster has been created.
 provider "kubernetes" {
   host = module.kube-hetzner.kubeconfig_data.host
 
@@ -142,14 +142,54 @@ provider "kubernetes" {
   cluster_ca_certificate = module.kube-hetzner.kubeconfig_data.cluster_ca_certificate
 }
 
-module "five31" {
-  source     = "./modules/app"
+// Uncomment this block if you want to use Vercel for frontend deployment.
+provider "vercel" {
+  api_token = var.vercel_token
+}
+
+module "five31-frontend" {
+  source     = "./modules/frontend"
   depends_on = [module.kube-hetzner]
 
-  app_name  = "five31"
-  subdomain = "five31"
-  image     = "ghcr.io/bakseter/531/backend:latest"
-  port      = 8080
+  name              = "five31"
+  github_repository = "bakseter/five31"
+  root_directory    = "frontend"
+
+  environment = {
+    "NEXT_PUBLIC_BACKEND_URL" = {
+      value = module.five31-backend.fqdn
+    },
+    "NEXT_PUBLIC_BACKEND_API_VERSION" = {
+      value = "v2"
+    },
+    "AUTH_SECRET" = {
+      value = random_password.five31-frontend-auth-secret.result
+    },
+    "AUTH_GOOGLE_ID" = {
+      value = var.auth_google_id
+    }
+  }
+
+  secret_environment = {
+    "AUTH_GOOGLE_SECRET" = {
+      value = var.auth_google_secret
+    }
+  }
+}
+
+resource "random_password" "five31-frontend-auth-secret" {
+  length           = 64
+  special          = true
+  override_special = "_%@"
+}
+
+module "five31-backend" {
+  source     = "./modules/backend"
+  depends_on = [module.kube-hetzner]
+
+  name           = "five31"
+  image          = "ghcr.io/bakseter/531/backend:latest"
+  container_port = 8080
 
   environment = {
     "DATABASE_USERNAME" : "postgres",

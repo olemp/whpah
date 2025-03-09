@@ -23,7 +23,7 @@ resource "kubernetes_secret_v1" "postgres" {
 
 resource "kubernetes_persistent_volume_claim_v1" "postgres" {
   metadata {
-    name = "postgres"
+    name      = "postgres"
     namespace = kubernetes_namespace_v1.postgres.metadata.0.name
   }
 
@@ -95,6 +95,11 @@ resource "kubernetes_stateful_set_v1" "postgres" {
           env {
             name  = "POSTGRES_USER"
             value = "postgres"
+          }
+
+          env {
+            name  = "PGDATA"
+            value = "/var/lib/postgresql/data/pgdata"
           }
 
           env {

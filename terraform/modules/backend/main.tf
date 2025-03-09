@@ -105,7 +105,7 @@ resource "kubernetes_manifest" "issuer" {
     kind       = "Issuer"
 
     metadata = {
-      name      = var.name
+      name      = "letsencrypt"
       namespace = kubernetes_namespace_v1.namespace.metadata[0].name
     }
 
@@ -115,7 +115,7 @@ resource "kubernetes_manifest" "issuer" {
         server = "https://acme-v02.api.letsencrypt.org/directory"
 
         privateKeySecretRef = {
-          name = "${var.name}-tls"
+          name = "letsencrypt"
         }
 
         solvers = [

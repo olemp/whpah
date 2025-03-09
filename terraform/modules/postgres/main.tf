@@ -12,7 +12,8 @@ resource "random_password" "postgres" {
 
 resource "kubernetes_secret_v1" "postgres" {
   metadata {
-    name = "postgres"
+    name      = "postgres"
+    namespace = kubernetes_namespace_v1.postgres.metadata.0.name
   }
 
   data = {
@@ -23,6 +24,7 @@ resource "kubernetes_secret_v1" "postgres" {
 resource "kubernetes_persistent_volume_claim_v1" "postgres" {
   metadata {
     name = "postgres"
+    namespace = kubernetes_namespace_v1.postgres.metadata.0.name
   }
 
   spec {

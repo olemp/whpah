@@ -150,6 +150,7 @@ provider "vercel" {
 module "five31-frontend" {
   source     = "./modules/frontend"
   depends_on = [module.kube-hetzner]
+  count      = 0
 
   name              = "five31"
   github_repository = "bakseter/five31"

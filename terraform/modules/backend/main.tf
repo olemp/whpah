@@ -56,7 +56,7 @@ resource "kubernetes_deployment_v1" "deployment" {
 
               value_from {
                 secret_key_ref {
-                  name = kubernetes_secret_v1.secret-environment.metadata[0].name
+                  name = kubernetes_secret_v1.secret-environment[0].metadata[0].name
                   key  = env.key
                 }
               }

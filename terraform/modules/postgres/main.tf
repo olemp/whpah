@@ -35,6 +35,8 @@ resource "kubernetes_persistent_volume_claim_v1" "postgres" {
       }
     }
   }
+
+  wait_until_bound = false
 }
 
 resource "kubernetes_service_v1" "postgres" {

@@ -162,6 +162,18 @@ module "five31-frontend" {
     "NEXT_PUBLIC_BACKEND_API_VERSION" = {
       value = "v2"
     },
+    "NEXT_PUBLIC_ENVIRONMENT" = {
+      value   = "production"
+      targets = ["production"]
+    },
+    "NEXT_PUBLIC_ENVIRONMENT" = {
+      value   = "preview"
+      targets = ["preview"]
+    },
+    "NEXT_PUBLIC_ENVIRONMENT" = {
+      value   = "development"
+      targets = ["development"]
+    },
     "AUTH_SECRET" = {
       value = random_password.five31-frontend-auth-secret.result
     },

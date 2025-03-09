@@ -155,38 +155,46 @@ module "five31-frontend" {
   github_repository = "bakseter/five31"
   root_directory    = "frontend"
 
-  environment = {
-    "NEXT_PUBLIC_BACKEND_URL" = {
+  environment = [
+    {
+      key   = "NEXT_PUBLIC_BACKEND_URL"
       value = module.five31-backend.fqdn
     },
-    "NEXT_PUBLIC_BACKEND_API_VERSION" = {
+    {
+      key   = "NEXT_PUBLIC_BACKEND_API_VERSION"
       value = "v2"
     },
-    "NEXT_PUBLIC_ENVIRONMENT" = {
-      value   = "production"
-      targets = ["production"]
+    {
+      key    = "NEXT_PUBLIC_ENVIRONMENT"
+      value  = "production"
+      target = ["production"]
     },
-    "NEXT_PUBLIC_ENVIRONMENT" = {
-      value   = "preview"
-      targets = ["preview"]
+    {
+      key    = "NEXT_PUBLIC_ENVIRONMENT"
+      value  = "preview"
+      target = ["preview"]
     },
-    "NEXT_PUBLIC_ENVIRONMENT" = {
-      value   = "development"
-      targets = ["development"]
+    {
+      key    = "NEXT_PUBLIC_ENVIRONMENT"
+      value  = "development"
+      target = ["development"]
     },
-    "AUTH_SECRET" = {
+    {
+      key   = "AUTH_SECRET"
       value = random_password.five31-frontend-auth-secret.result
     },
-    "AUTH_GOOGLE_ID" = {
+    {
+      key   = "AUTH_GOOGLE_ID"
       value = var.auth_google_id
     }
-  }
+  ]
 
-  secret_environment = {
-    "AUTH_GOOGLE_SECRET" = {
+  secret_environment = [
+    {
+      key   = "AUTH_GOOGLE_SECRET"
       value = var.auth_google_secret
     }
-  }
+  ]
 }
 
 resource "random_password" "five31-frontend-auth-secret" {

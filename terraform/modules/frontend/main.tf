@@ -23,7 +23,7 @@ resource "vercel_project_environment_variables" "environment" {
     : {
       key    = key
       value  = value.value
-      target = value.targets
+      target = value.target
     }
   ]
 }
@@ -35,7 +35,7 @@ resource "vercel_project_environment_variables" "secret_environment" {
     : {
       key       = key
       value     = value.value
-      target    = value.targets
+      target    = value.target
       sensitive = true
     }
   ]

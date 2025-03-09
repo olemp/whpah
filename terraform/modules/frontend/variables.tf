@@ -11,16 +11,18 @@ variable "root_directory" {
 }
 
 variable "environment" {
-  type = map(object({
-    value   = string
-    targets = optional(set(string), ["production", "preview", "development"])
+  type = list(object({
+    key    = string
+    value  = string
+    target = optional(set(string), ["production", "preview", "development"])
   }))
 }
 
 variable "secret_environment" {
-  type = map(object({
-    value   = string
-    targets = optional(set(string), ["production", "preview"])
+  type = list(object({
+    key    = string
+    value  = string
+    target = optional(set(string), ["production", "preview"])
   }))
   sensitive = true
 }

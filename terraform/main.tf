@@ -123,7 +123,7 @@ service:
     load-balancer.hetzner.cloud/health-check-timeout: 10s
     load-balancer.hetzner.cloud/ipv6-disabled: "false"
     load-balancer.hetzner.cloud/location: ${var.location}
-    load-balancer.hetzner.cloud/name: k3s-traefik
+    load-balancer.hetzner.cloud/name: k3s
     load-balancer.hetzner.cloud/type: ${var.load_balancer_sku}
     load-balancer.hetzner.cloud/use-private-ip: "true"
     load-balancer.hetzner.cloud/uses-proxyprotocol: "true"
@@ -131,7 +131,6 @@ service:
   type: LoadBalancer
 EOT
 }
-
 
 // Uncomment this block after cluster has been created.
 provider "kubernetes" {
@@ -142,86 +141,42 @@ provider "kubernetes" {
   cluster_ca_certificate = module.kube-hetzner.kubeconfig_data.cluster_ca_certificate
 }
 
+// Uncomment this block after cluster has been created.
+provider "helm" {
+  kubernetes = {
+    host = module.kube-hetzner.kubeconfig_data.host
+
+    client_certificate     = module.kube-hetzner.kubeconfig_data.client_certificate
+    client_key             = module.kube-hetzner.kubeconfig_data.client_key
+    cluster_ca_certificate = module.kube-hetzner.kubeconfig_data.cluster_ca_certificate
+  }
+}
+
 // Uncomment this block if you want to use Vercel for frontend deployment.
 provider "vercel" {
   api_token = var.vercel_token
 }
 
-module "five31-frontend" {
-  source     = "./modules/frontend"
-  depends_on = [module.kube-hetzner]
+// Uncomment this block after cluster has been created.
+resource "helm_release" "keel" {
+  name       = "keel"
+  chart      = "keel"
+  repository = "https://charts.keel.sh"
+  version    = "1.0.5"
 
-  name              = "five31"
-  github_repository = "bakseter/five31"
-  root_directory    = "frontend"
+  namespace        = "keel"
+  create_namespace = true
+  atomic           = true
+  cleanup_on_fail  = true
+  wait_for_jobs    = true
 
-  environment = [
-    {
-      key   = "NEXT_PUBLIC_BACKEND_URL"
-      value = module.five31-backend.fqdn
-    },
-    {
-      key   = "NEXT_PUBLIC_BACKEND_API_VERSION"
-      value = "v2"
-    },
-    {
-      key    = "NEXT_PUBLIC_ENVIRONMENT"
-      value  = "production"
-      target = ["production"]
-    },
-    {
-      key    = "NEXT_PUBLIC_ENVIRONMENT"
-      value  = "preview"
-      target = ["preview"]
-    },
-    {
-      key    = "NEXT_PUBLIC_ENVIRONMENT"
-      value  = "development"
-      target = ["development"]
-    },
-    {
-      key   = "AUTH_SECRET"
-      value = random_password.five31-frontend-auth-secret.result
-    },
-    {
-      key   = "AUTH_GOOGLE_ID"
-      value = var.auth_google_id
-    }
+  values = [<<EOT
+helmProvider:
+  enabled: false
+rbac:
+  enabled: false
+secret:
+  enabled: false
+EOT
   ]
-
-  secret_environment = [
-    {
-      key   = "AUTH_GOOGLE_SECRET"
-      value = var.auth_google_secret
-    }
-  ]
-}
-
-resource "random_password" "five31-frontend-auth-secret" {
-  length           = 64
-  special          = true
-  override_special = "_%@"
-}
-
-module "five31-backend" {
-  source     = "./modules/backend"
-  depends_on = [module.kube-hetzner]
-
-  name           = "five31"
-  image          = "ghcr.io/bakseter/531/backend:latest"
-  container_port = 8080
-
-  environment = {
-    "DATABASE_USERNAME" : "postgres",
-    "DATABASE_URL" : "jdbc:postgresql://${module.postgres.database_url}",
-  }
-
-  secret_environment = {
-    "DATABASE_PASSWORD" : module.postgres.database_password
-  }
-}
-
-module "postgres" {
-  source     = "./modules/postgres"
-  depends_on = [module.kube-hetzner]
 }

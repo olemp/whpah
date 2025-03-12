@@ -12,6 +12,11 @@ resource "kubernetes_deployment_v1" "deployment" {
   metadata {
     name      = var.name
     namespace = kubernetes_namespace_v1.namespace.metadata[0].name
+
+    annotations = {
+      "keel.sh/policy" : "latest"
+      "keel.sh/trigger" : "poll"
+    }
   }
 
   spec {

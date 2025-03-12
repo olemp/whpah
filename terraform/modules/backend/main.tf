@@ -14,7 +14,8 @@ resource "kubernetes_deployment_v1" "deployment" {
     namespace = kubernetes_namespace_v1.namespace.metadata[0].name
 
     annotations = {
-      "keel.sh/policy" : "latest"
+      "keel.sh/policy" : "force"
+      "keel.sh/match-tag" : "true",
       "keel.sh/trigger" : "poll"
     }
   }

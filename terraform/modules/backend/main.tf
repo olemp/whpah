@@ -15,7 +15,7 @@ resource "kubernetes_deployment_v1" "deployment" {
 
     annotations = {
       "keel.sh/policy" : "force"
-      "keel.sh/match-tag" : "true",
+      "keel.sh/match-tag" : "true"
       "keel.sh/trigger" : "poll"
     }
   }

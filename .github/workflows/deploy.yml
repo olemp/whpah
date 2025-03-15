@@ -22,7 +22,7 @@ jobs:
         uses: hashicorp/setup-packer@v3
 
       - name: Build snapshot
-        if: false() # TODO: fix
+        if: false # TODO: fix
         run: |
           packer init "$PACKER_FILE"
           packer build --force "$PACKER_FILE"

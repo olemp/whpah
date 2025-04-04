@@ -8,17 +8,28 @@ metadata:
 spec:
   ingressClassName: traefik
   rules:
+  - host: five31.bakseter.net
+    http:
+      paths:
+      - backend:
+          service:
+            name: five31-frontend
+            port:
+              number: 80
+        path: /
+        pathType: Prefix
   - host: api.five31.bakseter.net
     http:
       paths:
       - backend:
           service:
-            name: five31
+            name: five31-backend
             port:
               number: 80
         path: /
         pathType: Prefix
   tls:
   - hosts:
+    - five31.bakseter.net
     - api.five31.bakseter.net
     secretName: five31-tls

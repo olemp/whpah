@@ -27,6 +27,8 @@ spec:
             value: "https://api.five31.bakseter.net"
           - name: NEXT_PUBLIC_BACKEND_API_VERSION
             value: "v2"
+          - name: NEXTAUTH_URL
+            value: "https://five31.bakseter.net"
           - name: AUTH_GOOGLE_ID
             value: "494605988528-2588jg0pclbpksd5f3a51mlulp53rdmd.apps.googleusercontent.com"
           - name: AUTH_SECRET

@@ -16,3 +16,6 @@ spec:
       repositories:
         argocd:
           url: https://github.com/bakseter/platform
+
+      dex:
+        enabled: false

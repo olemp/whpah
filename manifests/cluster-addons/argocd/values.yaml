@@ -1,0 +1,13 @@
+global:
+  domain: argocd.bakseter.net
+
+  networkPolicy:
+    create: true
+
+configs:
+  repositories:
+    argocd:
+      url: https://github.com/bakseter/platform
+
+  dex:
+    enabled: false

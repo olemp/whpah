@@ -21,14 +21,23 @@ spec:
       - name: five31-frontend
         image: ghcr.io/bakseter/five31/frontend:latest
         env:
-        - name: DATABASE_URL
-          value: jdbc:postgresql://postgres.postgres.svc.cluster.local:5432/postgres
-        - name: DATABASE_USERNAME
-          value: postgres
-        - name: DATABASE_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              key: DATABASE_PASSWORD
-              name: five31-backend-secret-environment
+          - name: NEXT_PUBLIC_ENVIRONMENT
+            value: "production"
+          - name: NEXT_PUBLIC_BACKEND_URL
+            value: "https://api.five31.bakseter.net"
+          - name: NEXT_PUBLIC_BACKEND_API_VERSION
+            value: "v2"
+          - name: AUTH_GOOGLE_ID
+            value: "494605988528-2588jg0pclbpksd5f3a51mlulp53rdmd.apps.googleusercontent.com"
+          - name: AUTH_SECRET
+            valueFrom:
+              secretKeyRef:
+                key: AUTH_SECRET
+                name: five31-frontend-secret
+          - name: AUTH_GOOGLE_SECRET
+            valueFrom:
+              secretKeyRef:
+                key: AUTH_GOOGLE_SECRET
+                name: five31-frontend-secret
         ports:
-        - containerPort: 8080
+        - containerPort: 3000

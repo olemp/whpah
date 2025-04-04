@@ -29,6 +29,6 @@ spec:
           valueFrom:
             secretKeyRef:
               key: DATABASE_PASSWORD
-              name: five31-backend-secret-environment
+              name: five31-backend-secret
         ports:
         - containerPort: 8080

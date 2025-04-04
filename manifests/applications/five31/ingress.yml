@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/issuer: letsencrypt
+  name: five31
+  namespace: five31
+spec:
+  ingressClassName: traefik
+  rules:
+  - host: api.five31.bakseter.net
+    http:
+      paths:
+      - backend:
+          service:
+            name: five31
+            port:
+              number: 80
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - api.five31.bakseter.net
+    secretName: five31-tls

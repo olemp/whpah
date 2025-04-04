@@ -128,3 +128,26 @@ configs:
 EOT
   ]
 }
+
+locals {
+  argocd_root_application = file("${path.module}/argocd-root-application.yml")
+}
+
+resource "null_resource" "kubectl-apply-manifest" {
+  triggers = {
+    manifest = local.argocd_root_application
+  }
+
+  provisioner "local-exec" {
+    command = "curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.30.0/bin/linux/amd64/kubectl && chmod +x kubectl"
+  }
+
+  provisioner "local-exec" {
+    command     = "./kubectl apply --force --kubeconfig <(echo \"$KUBECONFIG\" | base64 -d) -f <(echo \"$MANIFEST\" | base64 -d)"
+    interpreter = ["/bin/bash", "-c"]
+    environment = {
+      KUBECONFIG = base64encode(module.kube-hetzner.kubeconfig_data.kubeconfig)
+      MANIFEST   = base64encode(local.argocd_root_application)
+    }
+  }
+}

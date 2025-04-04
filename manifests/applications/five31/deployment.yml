@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    keel.sh/match-tag: "true"
+    keel.sh/policy: force
+    keel.sh/trigger: poll
+  name: five31
+  namespace: five31
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: five31
+  template:
+    metadata:
+      labels:
+        app: five31
+    spec:
+      containers:
+      - name: five31
+        image: ghcr.io/bakseter/531/backend:latest
+        env:
+        - name: DATABASE_URL
+          value: jdbc:postgresql://postgres.postgres.svc.cluster.local:5432/postgres
+        - name: DATABASE_USERNAME
+          value: postgres
+        - name: DATABASE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: DATABASE_PASSWORD
+              name: five31-secret-environment
+        ports:
+        - containerPort: 8080

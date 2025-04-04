@@ -82,28 +82,6 @@ provider "vercel" {
 }
 
 // Uncomment this block after cluster has been created.
-resource "helm_release" "keel" {
-  name       = "keel"
-  chart      = "keel"
-  repository = "https://charts.keel.sh"
-  version    = "1.0.5"
-
-  namespace        = "keel"
-  create_namespace = true
-  atomic           = true
-  cleanup_on_fail  = true
-  wait_for_jobs    = true
-
-  values = [<<EOT
-helmProvider:
-  enabled: false
-secret:
-  enabled: false
-EOT
-  ]
-}
-
-// Uncomment this block after cluster has been created.
 resource "helm_release" "argocd" {
   name       = "argocd"
   chart      = "argo-cd"

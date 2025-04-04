@@ -4,6 +4,8 @@ metadata:
   name: default
   namespace: argocd
 spec:
+  orphanedResources:
+    warn: false
   clusterResourceWhitelist:
   - group: '*'
     kind: '*'

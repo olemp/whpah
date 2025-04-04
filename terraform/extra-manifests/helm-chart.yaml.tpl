@@ -9,6 +9,8 @@ spec:
   targetNamespace: argocd
   valuesContent: |-
     global:
+      domain: argocd.bakseter.net
+
       networkPolicy:
         create: true
 

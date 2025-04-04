@@ -1,4 +1,5 @@
-helmProvider:
-  enabled: false
-secret:
-  enabled: false
+keel:
+  helmProvider:
+    enabled: false
+  secret:
+    enabled: false

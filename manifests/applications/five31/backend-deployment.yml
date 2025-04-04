@@ -5,20 +5,20 @@ metadata:
     keel.sh/match-tag: "true"
     keel.sh/policy: force
     keel.sh/trigger: poll
-  name: five31-backend
+  name: backend
   namespace: five31
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: five31-backend
+      app: backend
   template:
     metadata:
       labels:
-        app: five31-backend
+        app: backend
     spec:
       containers:
-      - name: five31-backend
+      - name: backend
         image: ghcr.io/bakseter/five31/backend:latest
         env:
         - name: DATABASE_URL

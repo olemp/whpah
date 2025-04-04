@@ -13,7 +13,7 @@ spec:
       paths:
       - backend:
           service:
-            name: five31-frontend
+            name: frontend
             port:
               number: 80
         path: /
@@ -23,7 +23,7 @@ spec:
       paths:
       - backend:
           service:
-            name: five31-backend
+            name: backend
             port:
               number: 80
         path: /
@@ -32,4 +32,4 @@ spec:
   - hosts:
     - five31.bakseter.net
     - api.five31.bakseter.net
-    secretName: five31-tls
+    secretName: ingress-tls

@@ -1,0 +1,38 @@
+kind: StatefulSet
+metadata:
+  name: postgres
+  namespace: postgres
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  serviceName: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+      - name: postgres
+        image: postgres:17-alpine
+        env:
+        - name: POSTGRES_DB
+          value: postgres
+        - name: POSTGRES_USER
+          value: postgres
+        - name: PGDATA
+          value: /var/lib/postgresql/data/pgdata
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: password
+              name: postgres
+        volumeMounts:
+        - mountPath: /var/lib/postgresql/data
+          mountPropagation: None
+          name: postgres
+      volumes:
+      - name: postgres
+        persistentVolumeClaim:
+          claimName: postgres

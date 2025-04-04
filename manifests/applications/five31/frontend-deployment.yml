@@ -5,21 +5,21 @@ metadata:
     keel.sh/match-tag: "true"
     keel.sh/policy: force
     keel.sh/trigger: poll
-  name: five31
+  name: five31-frontend
   namespace: five31
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: five31
+      app: five31-frontend
   template:
     metadata:
       labels:
-        app: five31
+        app: five31-frontend
     spec:
       containers:
-      - name: five31
-        image: ghcr.io/bakseter/531/backend:latest
+      - name: five31-frontend
+        image: ghcr.io/bakseter/five31/frontend:latest
         env:
         - name: DATABASE_URL
           value: jdbc:postgresql://postgres.postgres.svc.cluster.local:5432/postgres
@@ -29,6 +29,6 @@ spec:
           valueFrom:
             secretKeyRef:
               key: DATABASE_PASSWORD
-              name: five31-secret-environment
+              name: five31-backend-secret-environment
         ports:
         - containerPort: 8080

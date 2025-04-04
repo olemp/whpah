@@ -130,7 +130,7 @@ EOT
 }
 
 locals {
-  argocd_root_application = file("${path.module}/argocd-root-application.yml")
+  argocd_root_application = file("${path.module}/manifests/argocd-root-application.yml")
 }
 
 resource "null_resource" "kubectl-apply-manifest" {

@@ -146,7 +146,7 @@ resource "null_resource" "kubectl-apply-manifest" {
     command     = "./kubectl apply --force --kubeconfig <(echo \"$KUBECONFIG\" | base64 -d) -f <(echo \"$MANIFEST\" | base64 -d)"
     interpreter = ["/bin/bash", "-c"]
     environment = {
-      KUBECONFIG = base64encode(module.kube-hetzner.kubeconfig_data.kubeconfig)
+      KUBECONFIG = base64encode(module.kube-hetzner.kubeconfig)
       MANIFEST   = base64encode(local.argocd_root_application)
     }
   }

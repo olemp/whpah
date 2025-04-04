@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: five31-backend
-        image: ghcr.io/bakseter/531/backend:latest
+        image: ghcr.io/bakseter/five31/backend:latest
         env:
         - name: DATABASE_URL
           value: jdbc:postgresql://postgres.postgres.svc.cluster.local:5432/postgres

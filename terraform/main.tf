@@ -76,11 +76,6 @@ provider "helm" {
   }
 }
 
-// Uncomment this block if you want to use Vercel for frontend deployment.
-provider "vercel" {
-  api_token = var.vercel_token
-}
-
 // Uncomment this block after cluster has been created.
 resource "helm_release" "argocd" {
   name       = "argocd"

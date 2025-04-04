@@ -116,13 +116,15 @@ resource "helm_release" "argocd" {
   cleanup_on_fail  = true
   wait_for_jobs    = true
 
-  /*
   values = [<<EOT
-helmProvider:
-  enabled: false
-secret:
-  enabled: false
+global:
+  networkPolicy:
+    create: true
+
+configs:
+  repositories:
+    argocd:
+      url: https://github.com/bakseter/platform
 EOT
   ]
-  */
 }

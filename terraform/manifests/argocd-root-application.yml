@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: applications
+  name: root
   namespace: argocd
 spec:
   goTemplate: true
@@ -12,6 +12,7 @@ spec:
         revision: HEAD
         directories:
           - path: manifests/applications/**
+          - path: manifests/cluster-addons/**
   template:
     metadata:
       name: '{{.path.basename}}'

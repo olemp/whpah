@@ -1,0 +1,2 @@
+config:
+  existingSecret: google-credentials

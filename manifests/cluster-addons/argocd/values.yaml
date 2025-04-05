@@ -9,5 +9,17 @@ configs:
     argocd:
       url: https://github.com/bakseter/whpat
 
+  cm:
+    admin.enabled: false
+
+    accounts.bakseter: apiKey, login
+
   dex:
     enabled: false
+
+server:
+  ingress:
+    enabled: true
+    ingressClassName: traefik
+    hostname: argocd.bakseter.net
+    tls: true

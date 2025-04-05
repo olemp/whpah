@@ -17,5 +17,7 @@ oauth2-proxy:
     className: traefik
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt
-    hosts:
-      - sso.bakseter.net
+    tls:
+    - hosts:
+        - sso.bakseter.net
+      secretName: ingress-tls

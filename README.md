@@ -1,6 +1,10 @@
-# platform
+# WHPAT
 
-## Bootstrap
+**W**e **H**ave **P**latform **A**t **H**ome — a dirt cheap Kubernetes developer platform using Argo CD, Hetzner Cloud, and Terraform Cloud.
+
+Based on [kube-hetzner](https://github.com/kube-hetzner/terraform-hcloud-kube-hetzner).
+
+## Create Your Own
 
 **1.** Create project `platform` in Hetzner Cloud and workspace `platform` in Terraform Cloud.
 Terraform Cloud username/organization should be the same as your GitHub username/organization.

@@ -1,3 +1,14 @@
 oauth2-proxy:
   config:
     existingSecret: google-credentials
+    configFile: |
+      email_domains = ["*"]
+      upstreams = ["static://200"]
+  extraArgs:
+    provider: google
+    oidc-issuer-url: https://accounts.google.com
+    pass-authorization-header: true
+    code-challenge-method: S256
+    redirect-url: https://sso.bakseter.net/oauth2/callback
+    cookie-domain: .bakseter.net
+    whitelist-domain: .bakseter.net

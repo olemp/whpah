@@ -1,2 +1,3 @@
-config:
-  existingSecret: google-credentials
+oauth2-proxy:
+  config:
+    existingSecret: google-credentials

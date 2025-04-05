@@ -1,0 +1,21 @@
+traefik:
+  deployment:
+    replicas: 1
+  ports:
+    web:
+      redirections:
+        entryPoint:
+          to: websecure
+          scheme: https
+          permanent: true
+  additionalArguments:
+    - "--providers.kubernetesingress.ingressendpoint.publishedservice=traefik/traefik"
+  resources:
+    requests:
+      cpu: "100m"
+      memory: "50Mi"
+    limits:
+      cpu: "300m"
+      memory: "150Mi"
+  autoscaling:
+    enabled: false

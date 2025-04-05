@@ -1,25 +1,26 @@
-global:
-  domain: argocd.bakseter.net
+argo-cd:
+  global:
+    domain: argocd.bakseter.net
 
-  networkPolicy:
-    create: true
+    networkPolicy:
+      create: true
 
-configs:
-  repositories:
-    argocd:
-      url: https://github.com/bakseter/whpat
+  configs:
+    repositories:
+      argocd:
+        url: https://github.com/bakseter/whpat
 
-  cm:
-    admin.enabled: false
+    cm:
+      admin.enabled: false
 
-    accounts.bakseter: apiKey, login
+      accounts.bakseter: apiKey, login
 
-  dex:
-    enabled: false
+    dex:
+      enabled: false
 
-server:
-  ingress:
-    enabled: true
-    ingressClassName: traefik
-    hostname: argocd.bakseter.net
-    tls: true
+  server:
+    ingress:
+      enabled: true
+      ingressClassName: traefik
+      hostname: argocd.bakseter.net
+      tls: true

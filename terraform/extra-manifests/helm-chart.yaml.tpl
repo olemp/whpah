@@ -17,7 +17,7 @@ spec:
     configs:
       repositories:
         argocd:
-          url: https://github.com/bakseter/platform
+          url: https://github.com/bakseter/whpat
 
       dex:
         enabled: false

@@ -17,7 +17,7 @@ spec:
     metadata:
       name: '{{.path.basename}}'
       labels:
-        bakseter.net/type: '{{trimSuffix "s" (index .path.path 1)}}'
+        bakseter.net/type: '{{trimSuffix "s" (index .path.segments 1)}}'
     spec:
       project: default
       sources:

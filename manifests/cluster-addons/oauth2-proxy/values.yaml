@@ -12,3 +12,8 @@ oauth2-proxy:
     redirect-url: https://sso.bakseter.net/oauth2/callback
     cookie-domain: .bakseter.net
     whitelist-domain: .bakseter.net
+  ingress:
+    enabled: true
+    className: traefik
+    hosts:
+      - sso.bakseter.net

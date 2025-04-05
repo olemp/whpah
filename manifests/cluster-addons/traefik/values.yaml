@@ -1,6 +1,7 @@
 traefik:
   deployment:
     replicas: 1
+  globalArguments: []
   ports:
     web:
       redirections:

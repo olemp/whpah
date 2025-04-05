@@ -21,6 +21,8 @@ spec:
       - name: app
         image: ghcr.io/bakseter/spenn:latest
         env:
+        - name: DATABASE_HOST
+          value: database.spenn.svc.cluster.local
         - name: DATABASE_USERNAME
           value: postgres
         - name: DATABASE_NAME

@@ -9,6 +9,9 @@ traefik:
           to: websecure
           scheme: https
           permanent: true
+  providers:
+    kubernetesCRD:
+      allowCrossNamespace: true
   additionalArguments:
     - "--providers.kubernetesingress.ingressendpoint.publishedservice=traefik/traefik"
   resources:

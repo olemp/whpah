@@ -11,9 +11,7 @@ argo-cd:
         url: https://github.com/bakseter/whpat
 
     cm:
-      admin.enabled: false
-
-      accounts.bakseter: apiKey, login
+      admin.enabled: true
 
     dex:
       enabled: false

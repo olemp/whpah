@@ -23,6 +23,8 @@ spec:
         env:
         - name: DATABASE_USERNAME
           value: postgres
+        - name: DATABASE_NAME
+          value: postgres
         - name: DATABASE_PASSWORD
           valueFrom:
             secretKeyRef:

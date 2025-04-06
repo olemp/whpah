@@ -21,6 +21,8 @@ spec:
       - name: app
         image: ghcr.io/bakseter/spenn:latest
         env:
+        - name: OAUTH2_USERINFO_ENDPOINT
+          value: https://auth.bakseter.net/oauth2/userinfo
         - name: DATABASE_HOST
           value: database.spenn.svc.cluster.local
         - name: DATABASE_USERNAME

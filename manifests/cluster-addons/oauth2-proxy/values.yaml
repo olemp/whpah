@@ -9,7 +9,7 @@ oauth2-proxy:
     oidc-issuer-url: https://accounts.google.com
     pass-authorization-header: true
     code-challenge-method: S256
-    redirect-url: https://sso.bakseter.net/oauth2/callback
+    redirect-url: https://auth.bakseter.net/oauth2/callback
     cookie-csrf-per-request: true
     cookie-domain: .bakseter.net
     whitelist-domain: .bakseter.net
@@ -23,8 +23,8 @@ oauth2-proxy:
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt
     hosts:
-      - sso.bakseter.net
+      - auth.bakseter.net
     tls:
     - hosts:
-        - sso.bakseter.net
+        - auth.bakseter.net
       secretName: ingress-tls

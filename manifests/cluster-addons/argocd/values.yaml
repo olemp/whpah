@@ -12,9 +12,19 @@ argo-cd:
 
     cm:
       admin.enabled: true
+      dex.config: |
+        connectors:
+          - type: authproxy
+            id: oauth2-proxy
+            name: OAuth2-Proxy
+            config:
+              userHeader: X-Forwarded-User
+              groupHeader: X-Forwarded-Group
+              staticGroups:
+                - default
 
     dex:
-      enabled: false
+      enabled: true
 
   server:
     ingress:

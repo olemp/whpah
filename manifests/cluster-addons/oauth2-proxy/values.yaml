@@ -16,6 +16,7 @@ oauth2-proxy:
     silence-ping-logging: true
     set-xauthrequest: true
     skip-provider-button: true
+    pass-user-headers: true
   ingress:
     enabled: true
     className: traefik

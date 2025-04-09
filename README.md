@@ -1,4 +1,4 @@
-# WHPAT
+# WHPAH
 
 **W**e **H**ave **P**latform **A**t **H**ome — a dirt cheap Kubernetes developer platform using Argo CD, Hetzner Cloud, and Terraform Cloud.
 

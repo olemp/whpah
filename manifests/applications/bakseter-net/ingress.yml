@@ -3,7 +3,6 @@ kind: Ingress
 metadata:
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt
-    traefik.ingress.kubernetes.io/router.middlewares: 'oauth2-proxy-forwardauth@kubernetescrd'
   name: web
   namespace: bakseter-net
 spec:

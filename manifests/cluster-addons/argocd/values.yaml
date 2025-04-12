@@ -33,7 +33,7 @@ argo-cd:
       hostname: argocd.bakseter.net
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt
-        traefik.ingress.kubernetes.io/router.middlewares: 'oauth2-proxy-forwardauth@kubernetescrd'
+        traefik.ingress.kubernetes.io/router.middlewares: 'oauth2-proxy-forwardauth@kubernetescrd,oauth2-proxy-errors@kubernetescrd,oauth2-proxy-headers@kubernetescrd'
       tls: true
 
   notifications:

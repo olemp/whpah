@@ -8,18 +8,13 @@ oauth2-proxy:
   extraArgs:
     provider: google
     oidc-issuer-url: https://accounts.google.com
-    pass-authorization-header: true
     code-challenge-method: S256
     redirect-url: https://auth.bakseter.net/oauth2/callback
     cookie-csrf-per-request: true
     cookie-domain: .bakseter.net
     whitelist-domain: .bakseter.net
     silence-ping-logging: true
-    set-xauthrequest: true
-    set-authorization-header: true
-    pass-access-token: true
     skip-provider-button: true
-    pass-user-headers: true
 
   revisionHistoryLimit: 1
 

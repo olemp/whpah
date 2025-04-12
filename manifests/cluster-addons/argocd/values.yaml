@@ -25,10 +25,10 @@ argo-cd:
 
     dex:
       enabled: true
-      logLevel: debug
 
     params:
       server.insecure: true
+      dexserver.log.level: debug
 
   notifications:
     enabled: false

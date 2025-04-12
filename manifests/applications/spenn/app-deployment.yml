@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
-    keel.sh/match-tag: "true"
+    keel.sh/match-tag: 'true'
     keel.sh/policy: force
     keel.sh/trigger: poll
   name: app
@@ -19,21 +19,23 @@ spec:
         app: app
     spec:
       containers:
-      - name: app
-        image: ghcr.io/bakseter/spenn:latest
-        env:
-        - name: OAUTH2_USERINFO_ENDPOINT
-          value: https://auth.bakseter.net/oauth2/userinfo
-        - name: DATABASE_HOST
-          value: database.spenn.svc.cluster.local
-        - name: DATABASE_USERNAME
-          value: postgres
-        - name: DATABASE_NAME
-          value: postgres
-        - name: DATABASE_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              key: DATABASE_PASSWORD
-              name: database-secret
-        ports:
-        - containerPort: 8080
+        - name: app
+          image: ghcr.io/bakseter/spenn:latest
+          env:
+            - name: HOST
+              value: https://spenn.bakseter.net
+            - name: OAUTH2_USERINFO_ENDPOINT
+              value: https://auth.bakseter.net/oauth2/userinfo
+            - name: DATABASE_HOST
+              value: database.spenn.svc.cluster.local
+            - name: DATABASE_USERNAME
+              value: postgres
+            - name: DATABASE_NAME
+              value: postgres
+            - name: DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: DATABASE_PASSWORD
+                  name: database-secret
+          ports:
+            - containerPort: 8080

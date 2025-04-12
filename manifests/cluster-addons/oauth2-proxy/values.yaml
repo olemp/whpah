@@ -17,6 +17,7 @@ oauth2-proxy:
     real-client-ip-header: X-Forwarded-For
     upstream: static://200
     email-domain: '*'
+    set-xauthrequest: true
 
   revisionHistoryLimit: 1
 

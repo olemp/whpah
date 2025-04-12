@@ -21,7 +21,7 @@ oauth2-proxy:
   revisionHistoryLimit: 1
 
   ingress:
-    enabled: false
+    enabled: true
     className: traefik
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt

@@ -16,6 +16,10 @@ oauth2-proxy:
     #   whitelist-domain: .bakseter.net
     silence-ping-logging: true
     set-xauthrequest: true
+    set-authorization-header: true
+    set-basic-auth: true
+    pass-access-token: true
+    pass-basic-auth: true
     skip-provider-button: true
     pass-user-headers: true
 

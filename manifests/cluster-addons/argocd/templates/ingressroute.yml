@@ -13,6 +13,9 @@ spec:
       services:
         - name: argocd-server
           port: 80
+      middlewares:
+        - name: forwardauth
+          namespace: oauth2-proxy
     - kind: Rule
       match: Host(`argocd.bakseter.net`) && Header(`Content-Type`, `application/grpc`)
       priority: 11
@@ -20,5 +23,8 @@ spec:
         - name: argocd-server
           port: 80
           scheme: h2c
+      middlewares:
+        - name: forwardauth
+          namespace: oauth2-proxy
   tls:
     secretName: ingress-tls

@@ -25,6 +25,7 @@ argo-cd:
 
     dex:
       enabled: true
+      logLevel: debug
 
     params:
       server.insecure: true

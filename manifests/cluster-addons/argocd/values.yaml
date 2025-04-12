@@ -3,7 +3,7 @@ argo-cd:
     domain: argocd.bakseter.net
 
     networkPolicy:
-      create: true
+      create: false # TODO: enable
 
   configs:
     repositories:
@@ -35,3 +35,6 @@ argo-cd:
         cert-manager.io/cluster-issuer: letsencrypt
         traefik.ingress.kubernetes.io/router.middlewares: 'oauth2-proxy-forwardauth@kubernetescrd'
       tls: true
+
+  notifications:
+    enabled: false

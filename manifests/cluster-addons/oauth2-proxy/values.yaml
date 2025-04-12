@@ -11,8 +11,8 @@ oauth2-proxy:
     code-challenge-method: S256
     redirect-url: https://auth.bakseter.net/oauth2/callback
     cookie-csrf-per-request: true
-    cookie-domain: .bakseter.net
-    whitelist-domain: .bakseter.net
+    #   cookie-domain: .bakseter.net
+    #   whitelist-domain: .bakseter.net
     silence-ping-logging: true
     set-xauthrequest: true
     skip-provider-button: true
@@ -25,6 +25,6 @@ oauth2-proxy:
     hosts:
       - auth.bakseter.net
     tls:
-    - hosts:
-        - auth.bakseter.net
-      secretName: ingress-tls
+      - hosts:
+          - auth.bakseter.net
+        secretName: ingress-tls

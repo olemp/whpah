@@ -1,6 +1,22 @@
 apiVersion: traefik.io/v1alpha1
 kind: Middleware
 metadata:
+  name: headers
+  namespace: oauth2-proxy
+spec:
+  headers:
+  sslRedirect: true
+  stsSeconds: 315360000
+  browserXssFilter: true
+  contentTypeNosniff: true
+  forceSTSHeader: true
+  stsIncludeSubdomains: true
+  stsPreload: true
+  frameDeny: true
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
   name: forwardauth
   namespace: oauth2-proxy
 spec:
@@ -9,3 +25,18 @@ spec:
     trustForwardHeader: true
     authResponseHeadersRegex: ^X-
     headerField: X-My-User-Header-Test
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: errors
+  namespace: oauth2-proxy
+spec:
+  errors:
+    status:
+      - '401'
+      - '403'
+    service:
+      name: oauth2-proxy
+      port: 80
+    query: '/oauth2/sign_in'

@@ -28,7 +28,7 @@ argo-cd:
 
   server:
     ingress:
-      enabled: false
+      enabled: true
       ingressClassName: traefik
       hostname: argocd.bakseter.net
       annotations:

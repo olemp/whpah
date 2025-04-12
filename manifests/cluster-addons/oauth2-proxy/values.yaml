@@ -15,6 +15,7 @@ oauth2-proxy:
     whitelist-domain: .bakseter.net
     silence-ping-logging: true
     skip-provider-button: true
+    reverse-proxy: true
 
   revisionHistoryLimit: 1
 

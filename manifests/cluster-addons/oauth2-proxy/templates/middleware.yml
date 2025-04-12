@@ -5,7 +5,7 @@ metadata:
   namespace: oauth2-proxy
 spec:
   forwardAuth:
-    address: http://auth.bakseter.net/oauth2
+    address: https://auth.bakseter.net/oauth2
     trustForwardHeader: true
     authResponseHeadersRegex: ^X-
     headerField: X-My-User-Header-Test

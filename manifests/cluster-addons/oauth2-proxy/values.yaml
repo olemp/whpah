@@ -12,8 +12,8 @@ oauth2-proxy:
     code-challenge-method: S256
     redirect-url: https://auth.bakseter.net/oauth2/callback
     cookie-csrf-per-request: true
-    #   cookie-domain: .bakseter.net
-    #   whitelist-domain: .bakseter.net
+    cookie-domain: .bakseter.net
+    whitelist-domain: .bakseter.net
     silence-ping-logging: true
     set-xauthrequest: true
     set-authorization-header: true

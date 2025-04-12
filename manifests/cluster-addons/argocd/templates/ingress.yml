@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+    traefik.ingress.kubernetes.io/router.middlewares: 'oauth2-proxy-forwardauth@kubernetescrd'
+  name: argocd-server
+  namespace: argocd
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: argocd.bakseter.net
+      http:
+        paths:
+          - backend:
+              service:
+                name: argocd-server
+                port:
+                  number: 443
+            path: /
+            pathType: Prefix
+  tls:
+    - hosts:
+        - argocd.bakseter.net
+      secretName: ingress-tls

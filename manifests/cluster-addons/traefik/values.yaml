@@ -1,7 +1,10 @@
 traefik:
   deployment:
     replicas: 1
+    revisionHistoryLimit: 1
+
   globalArguments: []
+
   ports:
     web:
       redirections:
@@ -9,17 +12,21 @@ traefik:
           to: websecure
           scheme: https
           permanent: true
+
   providers:
     kubernetesCRD:
       allowCrossNamespace: true
+
   additionalArguments:
-    - "--providers.kubernetesingress.ingressendpoint.publishedservice=traefik/traefik"
+    - '--providers.kubernetesingress.ingressendpoint.publishedservice=traefik/traefik'
+
   resources:
     requests:
-      cpu: "100m"
-      memory: "50Mi"
+      cpu: '100m'
+      memory: '50Mi'
     limits:
-      cpu: "300m"
-      memory: "150Mi"
+      cpu: '300m'
+      memory: '150Mi'
+
   autoscaling:
     enabled: false

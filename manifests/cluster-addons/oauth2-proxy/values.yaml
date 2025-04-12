@@ -4,6 +4,7 @@ oauth2-proxy:
     configFile: |
       email_domains = ["*"]
       upstreams = ["static://200"]
+
   extraArgs:
     provider: google
     oidc-issuer-url: https://accounts.google.com
@@ -17,6 +18,9 @@ oauth2-proxy:
     set-xauthrequest: true
     skip-provider-button: true
     pass-user-headers: true
+
+  revisionHistoryLimit: 1
+
   ingress:
     enabled: true
     className: traefik

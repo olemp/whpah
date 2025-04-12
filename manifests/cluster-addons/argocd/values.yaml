@@ -26,15 +26,5 @@ argo-cd:
     dex:
       enabled: true
 
-  server:
-    ingress:
-      enabled: true
-      ingressClassName: traefik
-      hostname: argocd.bakseter.net
-      annotations:
-        cert-manager.io/cluster-issuer: letsencrypt
-        traefik.ingress.kubernetes.io/router.middlewares: 'oauth2-proxy-forwardauth@kubernetescrd,oauth2-proxy-errors@kubernetescrd,oauth2-proxy-headers@kubernetescrd'
-      tls: true
-
   notifications:
     enabled: false

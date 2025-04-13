@@ -11,12 +11,12 @@ argo-cd:
         url: https://github.com/bakseter/whpah
 
     cm:
-      admin.enabled: true
+      admin.enabled: false
       dex.config: |
         connectors:
           - type: authproxy
             id: oauth2-proxy
-            name: OAuth2-Proxy
+            name: Proxy
             config:
               userHeader: X-Auth-Request-Email
               groupHeader: X-Auth-Request-Groups

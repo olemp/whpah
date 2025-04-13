@@ -18,6 +18,7 @@ oauth2-proxy:
     upstream: static://200
     email-domain: '*'
     set-xauthrequest: true
+    prefer-email-to-user: true
 
   revisionHistoryLimit: 1
 

@@ -26,10 +26,10 @@ argo-cd:
     rbac:
       policy.default: ''
       policy.csv: |
-        p, role:admin, *, get, *, allow
-        p, role:admin, applications, sync, *, allow
-        p, role:admin, applicationsets, sync, *, allow
-        g, andreas_tkd@hotmail.com, role:admin
+        p, role:org-admin, *, get, *, allow
+        p, role:org-admin, applications, sync, *, allow
+        p, role:org-admin, applicationsets, sync, *, allow
+        g, andreas_tkd@hotmail.com, role:org-admin
 
     dex:
       enabled: true

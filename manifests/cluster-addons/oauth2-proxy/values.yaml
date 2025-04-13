@@ -19,6 +19,7 @@ oauth2-proxy:
     email-domain: '*'
     set-xauthrequest: true
     pass-user-headers: true
+    set-basic-auth: true
 
   revisionHistoryLimit: 1
 

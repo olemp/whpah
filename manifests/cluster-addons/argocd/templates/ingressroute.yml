@@ -23,8 +23,5 @@ spec:
         - name: argocd-server
           port: 80
           scheme: h2c
-      middlewares:
-        - name: forwardauth
-          namespace: oauth2-proxy
   tls:
     secretName: ingress-tls

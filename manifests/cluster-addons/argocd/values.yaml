@@ -18,8 +18,8 @@ argo-cd:
             id: oauth2-proxy
             name: OAuth2-Proxy
             config:
-              userHeader: X-Forwarded-User
-              groupHeader: X-Forwarded-Group
+              userHeader: X-Auth-Request-User
+              groupHeader: X-Auth-Request-Groups
               staticGroups:
                 - default
 

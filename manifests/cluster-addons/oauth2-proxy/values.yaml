@@ -18,8 +18,6 @@ oauth2-proxy:
     upstream: static://200
     email-domain: '*'
     set-xauthrequest: true
-    pass-user-headers: true
-    set-basic-auth: true
 
   revisionHistoryLimit: 1
 

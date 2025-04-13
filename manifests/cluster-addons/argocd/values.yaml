@@ -30,6 +30,7 @@ argo-cd:
         p, role:org-admin, applications, sync, *, allow
         p, role:org-admin, applicationsets, sync, *, allow
         g, andreas_tkd@hotmail.com, role:org-admin
+        g, 100303045794873106192, role:org-admin
 
     dex:
       enabled: true

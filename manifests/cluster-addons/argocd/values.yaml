@@ -26,6 +26,7 @@ argo-cd:
     rbac:
       policy.default: ''
       policy.csv: |
+        p, role:admin, applications, *, allow
         g, andreas_tkd@hotmail.com, role:admin
 
     dex:

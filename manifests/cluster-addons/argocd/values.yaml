@@ -23,6 +23,11 @@ argo-cd:
               staticGroups:
                 - default
 
+    rbac:
+      policy.default: ''
+      policy.csv: |
+        g, andreas_tkd@hotmail.com, role:admin
+
     dex:
       enabled: true
 

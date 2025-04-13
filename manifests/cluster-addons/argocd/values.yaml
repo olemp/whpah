@@ -20,8 +20,6 @@ argo-cd:
             config:
               userHeader: X-Auth-Request-Email
               groupHeader: X-Auth-Request-Groups
-              staticGroups:
-                - default
 
     rbac:
       policy.default: ''

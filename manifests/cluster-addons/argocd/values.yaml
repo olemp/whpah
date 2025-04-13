@@ -18,7 +18,7 @@ argo-cd:
             id: oauth2-proxy
             name: OAuth2-Proxy
             config:
-              userHeader: X-Auth-Request-User
+              userHeader: X-Auth-Request-Email
               groupHeader: X-Auth-Request-Groups
               staticGroups:
                 - default
@@ -31,7 +31,6 @@ argo-cd:
         p, role:org-admin, applications, sync, *, allow
         p, role:org-admin, applicationsets, sync, *, allow
         g, andreas_tkd@hotmail.com, role:org-admin
-        g, 100303045794873106192, role:org-admin
 
     dex:
       enabled: true

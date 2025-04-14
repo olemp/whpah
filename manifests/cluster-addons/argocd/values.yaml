@@ -3,7 +3,7 @@ argo-cd:
     domain: argocd.bakseter.net
     revisionHistoryLimit: 1
     networkPolicy:
-      create: false # TODO: enable
+      create: true
 
   configs:
     repositories:
@@ -35,7 +35,6 @@ argo-cd:
 
     params:
       server.insecure: true
-      dexserver.log.level: debug
 
   notifications:
     enabled: false

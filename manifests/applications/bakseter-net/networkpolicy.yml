@@ -6,4 +6,8 @@ spec:
   podSelector:
     matchLabels:
       app: web
+  policyTypes:
+    - Ingress
+    - Egress
   ingress: []
+  egress: []

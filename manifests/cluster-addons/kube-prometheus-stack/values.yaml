@@ -1,1 +1,10 @@
-kube-prometheus-stack: {}
+kube-prometheus-stack:
+  grafana:
+    ingress:
+      enabled: true
+      hosts:
+        - grafana.bakseter.net
+      tls:
+        - secretName: grafana-tls
+          hosts:
+            - grafana.bakseter.net

@@ -21,15 +21,19 @@ spec:
       containers:
         - name: backend
           image: ghcr.io/bakseter/five31/backend:latest
+          envFrom:
+            - configMapRef:
+                name: backend-config
           env:
-            - name: DATABASE_URL
-              value: jdbc:postgresql://postgres.postgres.svc.cluster.local:5432/postgres
             - name: DATABASE_USERNAME
-              value: postgres
+              valueFrom:
+                configMapKeyRef:
+                  key: POSTGRES_USERNAME
+                  name: database-secret
             - name: DATABASE_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  key: DATABASE_PASSWORD
+                  key: POSTGRES_PASSWORD
                   name: database-secret
           ports:
             - containerPort: 8080

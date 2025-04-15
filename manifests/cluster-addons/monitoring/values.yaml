@@ -141,9 +141,9 @@ loki:
     replicas: 0
 
 grafana:
-  persistence:
-  type: pvc
-  enabled: true
+  # persistence:
+  #   type: pvc
+  #   enabled: true
 
   admin:
     existingSecret: 'grafana-admin-secret'

@@ -11,6 +11,10 @@ spec:
     - Ingress
     - Egress
   ingress:
-    - ports:
-        - protocol: TCP
-          port: 5432
+    - from:
+        - podSelector:
+            matchLabels:
+              app: backend
+          ports:
+            - protocol: TCP
+              port: 5432

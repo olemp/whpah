@@ -94,6 +94,9 @@ loki:
   minio:
     enabled: true
 
+  lokiCanary:
+    enabled: false
+
   deploymentMode: SingleBinary
   singleBinary:
     replicas: 1

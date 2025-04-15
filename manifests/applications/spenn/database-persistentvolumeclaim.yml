@@ -1,11 +1,11 @@
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: imported-data
+  name: database
   namespace: spenn
 spec:
   storageClassName: hcloud-volumes
-  volumeName: imported-data # <-- reference PV name
+  volumeName: spenn-database # <-- reference PV name
   accessModes:
     - ReadWriteMany
   resources:

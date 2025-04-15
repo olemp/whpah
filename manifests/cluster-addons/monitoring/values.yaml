@@ -97,6 +97,12 @@ loki:
   lokiCanary:
     enabled: false
 
+  chunksCache:
+    enabled: false
+
+  resultsCache:
+    enabled: false
+
   deploymentMode: SingleBinary
   singleBinary:
     replicas: 1

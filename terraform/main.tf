@@ -33,6 +33,14 @@ module "kube-hetzner" {
       labels      = [],
       taints      = [],
       count       = 1
+    },
+    {
+      name        = "agent-arm",
+      server_type = "cax21",
+      location    = var.location
+      labels      = [],
+      taints      = [],
+      count       = 1
     }
   ]
 

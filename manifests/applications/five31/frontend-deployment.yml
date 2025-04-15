@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
-    keel.sh/match-tag: "true"
+    keel.sh/match-tag: 'true'
     keel.sh/policy: force
     keel.sh/trigger: poll
   name: frontend
@@ -19,28 +19,12 @@ spec:
         app: frontend
     spec:
       containers:
-      - name: frontend
-        image: ghcr.io/bakseter/five31/frontend:latest
-        env:
-          - name: NEXT_PUBLIC_ENVIRONMENT
-            value: "production"
-          - name: NEXT_PUBLIC_BACKEND_URL
-            value: "https://api.five31.bakseter.net"
-          - name: NEXT_PUBLIC_BACKEND_API_VERSION
-            value: "v2"
-          - name: NEXTAUTH_URL
-            value: "https://five31.bakseter.net"
-          - name: AUTH_GOOGLE_ID
-            value: "494605988528-2588jg0pclbpksd5f3a51mlulp53rdmd.apps.googleusercontent.com"
-          - name: AUTH_SECRET
-            valueFrom:
-              secretKeyRef:
-                key: AUTH_SECRET
-                name: five31-frontend-secret
-          - name: AUTH_GOOGLE_SECRET
-            valueFrom:
-              secretKeyRef:
-                key: AUTH_GOOGLE_SECRET
-                name: five31-frontend-secret
-        ports:
-        - containerPort: 3000
+        - name: frontend
+          image: ghcr.io/bakseter/five31/frontend:latest
+          envFrom:
+            - configMapRef:
+                name: frontend-config
+            - secretRef:
+                name: frontend-secret
+          ports:
+            - containerPort: 3000

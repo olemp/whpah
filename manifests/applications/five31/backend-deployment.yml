@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
-    keel.sh/match-tag: "true"
+    keel.sh/match-tag: 'true'
     keel.sh/policy: force
     keel.sh/trigger: poll
   name: backend
@@ -19,17 +19,17 @@ spec:
         app: backend
     spec:
       containers:
-      - name: backend
-        image: ghcr.io/bakseter/five31/backend:latest
-        env:
-        - name: DATABASE_URL
-          value: jdbc:postgresql://postgres.postgres.svc.cluster.local:5432/postgres
-        - name: DATABASE_USERNAME
-          value: postgres
-        - name: DATABASE_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              key: DATABASE_PASSWORD
-              name: five31-backend-secret
-        ports:
-        - containerPort: 8080
+        - name: backend
+          image: ghcr.io/bakseter/five31/backend:latest
+          env:
+            - name: DATABASE_URL
+              value: jdbc:postgresql://postgres.postgres.svc.cluster.local:5432/postgres
+            - name: DATABASE_USERNAME
+              value: postgres
+            - name: DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: DATABASE_PASSWORD
+                  name: database-secret
+          ports:
+            - containerPort: 8080

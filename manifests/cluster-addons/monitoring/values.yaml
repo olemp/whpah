@@ -154,6 +154,15 @@ grafana:
     enabled: true
     type: ClusterIP
 
+  ingress:
+    enabled: true
+    hosts:
+      - grafana.bakseter.net
+    tls:
+      - secretName: grafana-tls
+        hosts:
+          - grafana.bakseter.net
+
   datasources:
     datasources.yaml:
       apiVersion: 1

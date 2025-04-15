@@ -92,6 +92,7 @@ loki:
 
   lokiCanary:
     enabled: true
+    push: false
 
   resultsCache:
     enabled: false
@@ -100,7 +101,8 @@ loki:
   singleBinary:
     replicas: 1
     persistence:
-      enabled: false
+      enableStatefulSetAutoDeletePVC: true
+      enabled: true
     resources:
       limits:
         cpu: 500m
@@ -151,7 +153,7 @@ grafana:
     type: pvc
 
   admin:
-    existingSecret: 'grafana-admin-secret'
+    existingSecret: grafana-admin-secret
     userKey: admin-user
     passwordKey: admin-password
 

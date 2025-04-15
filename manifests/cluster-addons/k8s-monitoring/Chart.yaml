@@ -1,0 +1,7 @@
+apiVersion: v2
+name: k8s-monitoring-umbrella
+version: 0.1.0
+dependencies:
+  - name: k8s-monitoring
+    version: 2.0.23
+    repository: https://grafana.github.io/helm-charts

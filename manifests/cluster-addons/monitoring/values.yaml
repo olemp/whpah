@@ -9,7 +9,7 @@ k8s-monitoring:
 
   clusterEvents:
     enabled: true
-    collector: monitoring-alloy-logs
+    collector: alloy-logs
   #   namespaces:
   #     - meta
   #     - prod
@@ -20,7 +20,7 @@ k8s-monitoring:
   podLogs:
     enabled: true
     gatherMethod: kubernetesApi
-    collector: monitoring-alloy-logs
+    collector: alloy-logs
     labelsToKeep:
       [
         'app_kubernetes_io_name',
@@ -47,7 +47,7 @@ k8s-monitoring:
   alloy-metrics:
     enabled: false
 
-  monitoring-alloy-logs:
+  alloy-logs:
     enabled: true
     # Required when using the Kubernetes API to pod logs
     alloy:

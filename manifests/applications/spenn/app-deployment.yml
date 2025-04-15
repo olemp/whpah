@@ -21,21 +21,24 @@ spec:
       containers:
         - name: app
           image: ghcr.io/bakseter/spenn:latest
+          envFrom:
+            - configMapRef:
+                name: app-config
           env:
-            - name: HOST
-              value: https://spenn.bakseter.net
-            - name: OAUTH2_USERINFO_ENDPOINT
-              value: https://auth.bakseter.net/oauth2/userinfo
-            - name: DATABASE_HOST
-              value: database.spenn.svc.cluster.local
             - name: DATABASE_USERNAME
-              value: postgres
+              valueFrom:
+                configMapKeyRef:
+                  key: POSTGRES_USER
+                  name: database-config
             - name: DATABASE_NAME
-              value: postgres
+              valueFrom:
+                configMapKeyRef:
+                  key: POSTGRES_DB
+                  name: database-config
             - name: DATABASE_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  key: DATABASE_PASSWORD
+                  key: POSTGRES_PASSWORD
                   name: database-secret
           ports:
             - containerPort: 8080

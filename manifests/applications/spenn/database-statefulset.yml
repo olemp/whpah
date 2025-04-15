@@ -17,18 +17,11 @@ spec:
       containers:
         - name: database
           image: postgres:17-alpine
-          env:
-            - name: POSTGRES_DB
-              value: postgres
-            - name: POSTGRES_USER
-              value: postgres
-            - name: PGDATA
-              value: /var/lib/postgresql/data/pgdata
-            - name: POSTGRES_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  key: DATABASE_PASSWORD
-                  name: database-secret
+          envFrom:
+            - configMapRef:
+                name: database-config
+            - secretRef:
+                name: database-secret
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
               mountPropagation: None

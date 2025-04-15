@@ -18,6 +18,8 @@ spec:
       labels:
         app: web
     spec:
+      nodeSelector:
+        kubernetes.io/arch: arm64
       containers:
         - name: web
           image: ghcr.io/bakseter/bakseter.net:latest

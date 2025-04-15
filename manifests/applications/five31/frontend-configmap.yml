@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: frontend
+  name: frontend-config
   namespace: five31
 data:
   NEXT_PUBLIC_ENVIRONMENT: production

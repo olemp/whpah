@@ -7,3 +7,4 @@ data:
   DATABASE_HOST: database.spenn.svc.cluster.local
   HOST: https://spenn.bakseter.net
   OAUTH2_USERINFO_ENDPOINT: https://auth.bakseter.net/oauth2/userinfo
+  GIN_MODE: release

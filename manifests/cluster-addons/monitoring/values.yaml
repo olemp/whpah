@@ -95,7 +95,7 @@ loki:
     enabled: true
 
   lokiCanary:
-    enabled: false
+    enabled: true
 
   chunksCache:
     enabled: false

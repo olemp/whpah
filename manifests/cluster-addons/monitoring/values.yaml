@@ -97,9 +97,6 @@ loki:
   lokiCanary:
     enabled: true
 
-  chunksCache:
-    enabled: false
-
   resultsCache:
     enabled: false
 
@@ -119,6 +116,7 @@ loki:
         value: 3750MiB
 
   chunksCache:
+    enabled: false
     # default is 500MB, with limited memory keep this smaller
     writebackSizeLimit: 10MB
 
@@ -165,6 +163,9 @@ grafana:
 
   ingress:
     enabled: true
+    ingressClassName: traefik
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt
     hosts:
       - grafana.bakseter.net
     tls:

@@ -19,7 +19,7 @@ module "kube-hetzner" {
       name        = "control-plane",
       server_type = "cx22",
       location    = var.location
-      labels      = [],
+      labels      = ["kubernetes.io/arch=amd64"],
       taints      = [],
       count       = 1
     }
@@ -30,7 +30,7 @@ module "kube-hetzner" {
       name        = "agent",
       server_type = "cx22",
       location    = var.location
-      labels      = [],
+      labels      = ["kubernetes.io/arch=amd64"],
       taints      = [],
       count       = 1
     },
@@ -38,7 +38,7 @@ module "kube-hetzner" {
       name        = "agent-arm",
       server_type = "cax21",
       location    = var.location
-      labels      = [],
+      labels      = ["kubernetes.io/arch=arm64"],
       taints      = [],
       count       = 1
     }

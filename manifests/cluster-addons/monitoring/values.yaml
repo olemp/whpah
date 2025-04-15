@@ -99,17 +99,19 @@ loki:
   deploymentMode: SingleBinary
   singleBinary:
     replicas: 1
+    persistence:
+      enabled: false
     resources:
       limits:
-        cpu: 4
-        memory: 4Gi
+        cpu: 500m
+        memory: 512Mi
       requests:
-        cpu: 2
-        memory: 2Gi
+        cpu: 50m
+        memory: 128Mi
     extraEnv:
       # Keep a little bit lower than memory limits
       - name: GOMEMLIMIT
-        value: 3750MiB
+        value: 400MiB
 
   chunksCache:
     enabled: false
@@ -144,9 +146,9 @@ loki:
     replicas: 0
 
 grafana:
-  # persistence:
-  #   type: pvc
-  #   enabled: true
+  persistence:
+    enabled: false
+    type: pvc
 
   admin:
     existingSecret: 'grafana-admin-secret'

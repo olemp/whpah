@@ -44,8 +44,6 @@ module "kube-hetzner" {
   system_upgrade_use_drain  = true
   automatically_upgrade_os  = false
 
-  disable_network_policy = true
-
   dns_servers = [
     "1.1.1.1",
     "8.8.8.8",

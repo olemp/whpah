@@ -1,12 +1,12 @@
 apiVersion: autoscaling.k8s.io/v1
 kind: VerticalPodAutoscaler
 metadata:
-  name: app
-  namespace: spenn
+  name: backend
+  namespace: five31
 spec:
   targetRef:
     apiVersion: 'apps/v1'
     kind: Deployment
-    name: app
+    name: backend
   updatePolicy:
     updateMode: 'Auto'

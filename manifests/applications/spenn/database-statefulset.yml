@@ -23,7 +23,6 @@ spec:
             - secretRef:
                 name: database-secret
           securityContext:
-            readOnlyRootFilesystem: true
             allowPrivilegeEscalation: false
             capabilities:
               drop:

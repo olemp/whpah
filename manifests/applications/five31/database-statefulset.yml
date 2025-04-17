@@ -27,7 +27,6 @@ spec:
               mountPropagation: None
               name: postgres-data
           securityContext:
-            readOnlyRootFilesystem: true
             allowPrivilegeEscalation: false
             capabilities:
               drop:

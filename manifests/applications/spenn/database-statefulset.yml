@@ -24,9 +24,9 @@ spec:
                 name: database-secret
           securityContext:
             # allowPrivilegeEscalation: false
-            capabilities:
-              drop:
-                - ALL
+            # capabilities:
+              # drop:
+              #  - ALL
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
               mountPropagation: None

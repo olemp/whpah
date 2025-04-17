@@ -23,15 +23,18 @@ spec:
           image: ghcr.io/bakseter/bakseter.net:latest
           ports:
             - containerPort: 8080
+          volumeMounts:
+            - name: nginx-tmp
+              mountPath: /tmp/nginx
           securityContext:
             readOnlyRootFilesystem: true
             allowPrivilegeEscalation: false
             capabilities:
               drop:
                 - ALL
-          volumeMounts:
-            - name: nginx-tmp
-              mountPath: /tmp/nginx
+      volumes:
+        - name: nginx-tmp
+          emptyDir: {}
       securityContext:
         fsGroup: 1001
         runAsGroup: 1001
@@ -40,6 +43,3 @@ spec:
           type: RuntimeDefault
         supplementalGroups:
           - 1001
-      volumes:
-        - name: nginx-tmp
-          emptyDir: {}

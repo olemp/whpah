@@ -26,7 +26,21 @@ spec:
             - mountPath: /var/lib/postgresql/data
               mountPropagation: None
               name: postgres-data
+          securityContext:
+            readOnlyRootFilesystem: true
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
       volumes:
         - name: postgres-data
           persistentVolumeClaim:
             claimName: database
+      securityContext:
+        fsGroup: 1001
+        runAsGroup: 1001
+        runAsUser: 1001
+        seccompProfile:
+          type: RuntimeDefault
+        supplementalGroups:
+          - 1001

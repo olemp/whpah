@@ -22,10 +22,24 @@ spec:
                 name: database-config
             - secretRef:
                 name: database-secret
+          securityContext:
+            readOnlyRootFilesystem: true
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
               mountPropagation: None
               name: postgres-data
+      securityContext:
+        fsGroup: 1001
+        runAsGroup: 1001
+        runAsUser: 1001
+        seccompProfile:
+          type: RuntimeDefault
+        supplementalGroups:
+          - 1001
       volumes:
         - name: postgres-data
           persistentVolumeClaim:

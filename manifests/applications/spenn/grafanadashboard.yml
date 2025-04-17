@@ -3,6 +3,9 @@ kind: GrafanaDashboard
 metadata:
   name: spenn
 spec:
+  instanceSelector:
+    matchLabels:
+      dashboards: 'grafana'
   resyncPeriod: 30s
   json: >
     {

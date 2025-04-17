@@ -3,9 +3,7 @@ kind: GrafanaDatasource
 metadata:
   name: loki
 spec:
-  instanceSelector:
-    matchLabels:
-      dashboards: 'grafana'
+  allowCrossNamespaceImport: true
   datasource:
     name: loki
     type: loki

@@ -29,6 +29,9 @@ spec:
             capabilities:
               drop:
                 - ALL
+          volumeMounts:
+            - name: nginx-tmp
+              mountPath: /tmp/nginx
       securityContext:
         fsGroup: 1001
         runAsGroup: 1001
@@ -37,3 +40,6 @@ spec:
           type: RuntimeDefault
         supplementalGroups:
           - 1001
+      volumes:
+        - name: nginx-tmp
+          emptyDir: {}

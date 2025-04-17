@@ -146,14 +146,14 @@ loki:
     replicas: 0
 
 grafana:
-  grafana.ini:
-    auth.proxy:
-      enabled: true
-      header_name: X-Auth-Request-Email
-      header_property: email
-      auto_sign_up: true
-      headers: Groups:X-Auth-Request-Groups
-      enable_login_token: false
+  # grafana.ini:
+  #   auth.proxy:
+  #     enabled: true
+  #     header_name: X-Auth-Request-Email
+  #     header_property: email
+  #     auto_sign_up: true
+  #     headers: Groups:X-Auth-Request-Groups
+  #     enable_login_token: false
 
   persistence:
     enabled: false

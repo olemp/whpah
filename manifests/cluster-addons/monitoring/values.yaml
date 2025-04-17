@@ -146,6 +146,15 @@ loki:
     replicas: 0
 
 grafana:
+  grafana.ini:
+    auth.proxy:
+      enabled: true
+      header_name: X-Auth-Request-Email
+      header_property: email
+      auto_sign_up: true
+      headers: Groups:X-Auth-Request-Groups
+      enable_login_token: false
+
   persistence:
     enabled: false
     type: pvc
@@ -164,6 +173,7 @@ grafana:
     ingressClassName: traefik
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt
+      traefik.ingress.kubernetes.io/router.middlewares: oauth2-proxy-forwardauth@kubernetescrd,oauth2-proxy-errors@kubernetescrd
     hosts:
       - grafana.bakseter.net
     tls:

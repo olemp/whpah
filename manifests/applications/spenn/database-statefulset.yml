@@ -22,19 +22,14 @@ spec:
                 name: database-config
             - secretRef:
                 name: database-secret
-          securityContext:
-            # allowPrivilegeEscalation: false
-            # capabilities:
-              # drop:
-              #  - ALL
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
               mountPropagation: None
               name: postgres-data
-      securityContext:
-        seccompProfile:
-          type: RuntimeDefault
       volumes:
         - name: postgres-data
           persistentVolumeClaim:
             claimName: database
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault

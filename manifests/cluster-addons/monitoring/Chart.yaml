@@ -13,4 +13,4 @@ dependencies:
     repository: https://grafana.github.io/helm-charts
   - name: grafana-operator
     version: 5.17.1
-    repository: oci://ghcr.io/grafana/helm-charts/grafana-operator
+    repository: https://grafana.github.io/helm-charts

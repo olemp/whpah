@@ -12,6 +12,14 @@ argo-cd:
 
     cm:
       admin.enabled: false
+      resource.exclusions: |
+        - apiGroups:
+            - "*"
+          clusters:
+            - "*"
+          kinds:
+            - Endpoints
+            - EndpointSlice
       dex.config: |
         connectors:
           - type: authproxy

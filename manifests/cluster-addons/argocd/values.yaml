@@ -46,3 +46,8 @@ argo-cd:
 
   notifications:
     enabled: false
+
+  controller:
+    env:
+      - name: ARGOCD_APPLICATION_TREE_SHARD_SIZE
+        value: '50'

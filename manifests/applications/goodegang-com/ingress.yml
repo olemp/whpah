@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+  name: web
+  namespace: goodegang-com
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: goodegang.bakseter.net
+      http:
+        paths:
+          - backend:
+              service:
+                name: web
+                port:
+                  number: 80
+            path: /
+            pathType: Prefix
+  tls:
+    - hosts:
+        - goodegang.bakseter.net
+      secretName: ingress-tls

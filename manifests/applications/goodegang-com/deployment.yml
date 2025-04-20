@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: web
-          image: ghcr.io/bakseter/goodegang-com:latest
+          image: ghcr.io/bakseter/goodegang.com:latest
           ports:
             - containerPort: 8080
           volumeMounts:

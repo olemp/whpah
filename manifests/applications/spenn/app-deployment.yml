@@ -50,6 +50,7 @@ spec:
                 - ALL
       securityContext:
         fsGroup: 1001
+        runAsNonRoot: true
         runAsGroup: 1001
         runAsUser: 1001
         seccompProfile:

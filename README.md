@@ -4,7 +4,7 @@
 
 Based on [kube-hetzner](https://github.com/kube-hetzner/terraform-hcloud-kube-hetzner).
 
-## Create Your Own
+## Create Your Own (OUT OF DATE)
 
 **1.** Create project `platform` in Hetzner Cloud and workspace `platform` in Terraform Cloud.
 Terraform Cloud username/organization should be the same as your GitHub username/organization.

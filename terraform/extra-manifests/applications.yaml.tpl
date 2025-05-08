@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: root
+  name: applications
   namespace: argocd
 spec:
   goTemplate: true
@@ -12,20 +12,17 @@ spec:
         revision: HEAD
         directories:
           - path: manifests/applications/**
-          - path: manifests/cluster-addons/**
   template:
     metadata:
       name: '{{.path.basename}}'
       labels:
-        bakseter.net/type: '{{trimSuffix "s" (index .path.segments 1)}}'
+        bakseter.net/type: 'application'
     spec:
       project: default
       source:
         repoURL: https://github.com/bakseter/whpah
         targetRevision: HEAD
         path: '{{.path.path}}'
-        directory:
-          recurse: {{if eq (index .path.segments 1) "applications"}}true{{else}}false{{end}}
       destination:
         server: https://kubernetes.default.svc
         namespace: '{{.path.basename}}'

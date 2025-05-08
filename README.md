@@ -2,7 +2,21 @@
 
 **W**e **H**ave **P**latform **A**t **H**ome — a dirt cheap Kubernetes developer platform using Argo CD, Hetzner Cloud, and Terraform Cloud.
 
-Based on [kube-hetzner](https://github.com/kube-hetzner/terraform-hcloud-kube-hetzner).
+## What is this?
+
+After discovering [kube-hetzner](https://github.com/kube-hetzner/terraform-hcloud-kube-hetzner) and falling in love with Argo CD,
+I was amazed at how easily you can deploy a Kubernetes-based platform using only Cloud Native and open-source technologies.
+
+Following the steps below, you can create your own Kubernetes-based platform in a matter of minutes.
+
+This is what you get:
+
+- Hetzner Cloud k3s cluster, using kube-hetzner 🚀
+  - Traefik ingress controller 🚦
+  - cert-manager for TLS certificates 🔒
+- Argo CD for GitOps 🐙
+- Sealed Secrets for secrets management 🤐
+- Keel for automatic image updates 🔄
 
 # Create Your Own Platform!
 

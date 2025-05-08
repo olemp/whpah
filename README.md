@@ -31,7 +31,7 @@ This is what you get:
 **3.** Create project `platform` in Hetzner Cloud and workspace `platform` in Terraform Cloud.
 Terraform Cloud username/organization should be the same as your GitHub username/organization.
 
-**4.** Run this command to create a Hetzner Cloud context for the project (required Hetzner CLI):
+**4.** Run this command to create a Hetzner Cloud context for the project (requires Hetzner CLI):
 
 ```bash
 hcloud context create platform

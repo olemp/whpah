@@ -23,6 +23,8 @@ spec:
         repoURL: https://github.com/bakseter/whpah
         targetRevision: HEAD
         path: '{{.path.path}}'
+        directory:
+          recurse: true
       destination:
         server: https://kubernetes.default.svc
         namespace: '{{.path.basename}}'

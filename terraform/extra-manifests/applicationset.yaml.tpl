@@ -20,10 +20,12 @@ spec:
         bakseter.net/type: '{{trimSuffix "s" (index .path.segments 1)}}'
     spec:
       project: default
-      sources:
-        - repoURL: https://github.com/bakseter/whpah
-          targetRevision: HEAD
-          path: '{{.path.path}}'
+      source:
+        repoURL: https://github.com/bakseter/whpah
+        targetRevision: HEAD
+        path: '{{.path.path}}'
+        directory:
+          recurse: {{if eq (index .path.segments 1) "applications"}}true{{else}}false{{end}}
       destination:
         server: https://kubernetes.default.svc
         namespace: '{{.path.basename}}'

@@ -1,0 +1,2 @@
+argocd-image-updater:
+  namespaceOverride: argocd

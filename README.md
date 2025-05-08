@@ -75,14 +75,21 @@ kubectl config use-context k3s
 
 **1.** Buy a domain.
 
-**2.** Create a DNS A record pointing to the load balancer IP address of your cluster using your domain registrar.
-You can get the IP address with the following command:
+**2.** Create a DNS A record pointing to the external IP address(es) of Traefik's load balancer using your domain registrar.
+You can get the external IP address(es) with the following command:
 
 ```bash
 kubectl -n traefik get service traefik -o wide
 ```
 
 **3.** Wait for the DNS record to propagate.
+
+#### Caveats
+
+Since we are using Klipper for load-balancing, you may get multiple IP addresses (one for each node).
+If you have multiple IPs, create mulitple A records for your domain ([round-robin DNS](https://www.cloudflare.com/learning/dns/glossary/round-robin-dns)).
+
+If you want to have only one IP address, configure kube-hetzner to use a Hetzner Load Balancer instead of Klipper (more expensive).
 
 ### Access Argo CD
 

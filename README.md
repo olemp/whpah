@@ -100,6 +100,7 @@ Example:
 
 ```bash
 mkdir -p manifests/applications/my-app
+
 cat <<EOF > manifests/applications/my-app/pod.yaml
 apiVersion: v1
 kind: Pod
@@ -110,6 +111,7 @@ spec:
     containers:
     - name: nginx
       image: nginx:latest
+EOF
 ```
 
 # Deploy cluster-addons (Helm charts)

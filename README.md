@@ -32,6 +32,8 @@ and as a Terraform Cloud variable with name `hcloud_token`.
 
 ```bash
 ssh-keygen -t ed25519 -f ~/.ssh/my-platform
+cat ~/.ssh/my-platform.pub # public key
+cat ~/.ssh/my-platform # private key
 ```
 
 **8.** Push to `master`, triggering GitHub Actions to build and deploy the platform using Packer, Terraform and Argo CD.

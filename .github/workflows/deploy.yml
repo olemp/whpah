@@ -21,8 +21,17 @@ jobs:
       - name: Setup Packer
         uses: hashicorp/setup-packer@v3
 
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c
+        with:
+          files: ${{ env.PACKER_FILE }}
+
+      - name: Setup Packer
+        uses: hashicorp/setup-packer@v3
+
       - name: Build snapshot
-        if: false # TODO: fix
+        if: ${{ steps.changed-files.outputs.any_changed == 'true' }}
         run: |
           packer init "$PACKER_FILE"
           packer build --force "$PACKER_FILE"

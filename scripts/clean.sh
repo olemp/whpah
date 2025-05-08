@@ -109,3 +109,48 @@ spec:
           - CreateNamespace=true
           - ServerSideApply=true
 EOF
+
+cat <<EOF > manifests/cluster-addons/argocd/templates/certificate.yaml
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: ingress-tls
+  namespace: argocd
+spec:
+  secretName: ingress-tls
+  dnsNames:
+    - argocd.$domain_name
+  issuerRef:
+    name: letsencrypt
+    kind: ClusterIssuer
+EOF
+
+cat <<EOF > manifests/cluster-addons/argocd/templates/ingressroute.yaml
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: argocd-server
+  namespace: argocd
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - kind: Rule
+      match: Host(\`argocd.$domain_name\`)
+      priority: 10
+      services:
+        - name: argocd-server
+          port: 80
+      middlewares:
+        - name: forwardauth
+          namespace: oauth2-proxy
+    - kind: Rule
+      match: Host(\`argocd.$domain_name\`) && Header(\`Content-Type\`, \`application/grpc\`)
+      priority: 11
+      services:
+        - name: argocd-server
+          port: 80
+          scheme: h2c
+  tls:
+    secretName: ingress-tls
+EOF

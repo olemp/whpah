@@ -213,3 +213,7 @@ EOF
 
 The same pattern is used for cluster-addons, however, we usually create an umbrella chart for the cluster-addons.
 See the `manifests/cluster-addons` folder for examples.
+
+# License
+
+This project is licensed under the GPL-3.0 License - see the [LICENSE](LICENSE) file for details.

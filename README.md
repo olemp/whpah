@@ -20,6 +20,8 @@ This is what you get:
 
 # Create Your Own Platform!
 
+## Get the Configuration
+
 **1.** Fork this repository.
 
 **2.** Run the script `./scripts/clean.sh` to get a base version of the platform:
@@ -28,21 +30,27 @@ This is what you get:
 ./scripts/clean.sh
 ```
 
-**3.** Create project `platform` in Hetzner Cloud and workspace `platform` in Terraform Cloud.
-Terraform Cloud username/organization should be the same as your GitHub username/organization.
+**3.** Create a Hetzner Cloud project, and get an API token with read/write access.
+You will use this token later.
 
-**4.** Run this command to create a Hetzner Cloud context for the project (requires Hetzner CLI):
+## Option 1: Local Terraform
+
+**1.** Install [Terraform](https://developer.hashicorp.com/terraform/install) and [Packer](https://developer.hashicorp.com/packer/tutorials/docker-get-started/get-started-install-cli).
+
+**2.** Remove the entire `.github` folder from the repository:
 
 ```bash
-hcloud context create platform
+rm -rf .github
 ```
 
-**5.** Get API token from Hetzner Cloud with read/write access, and save as both GitHub secret named `HCLOUD_TOKEN`
-and as a Terraform Cloud variable with name `hcloud_token`.
+Put your Hetzner Cloud API token in a file name `terraform.tfvars` under the `terraform` folder:
 
-**6.** Get API token from Terraform Cloud and save as GitHub secret with name `TF_API_TOKEN`.
+```hcl
+# terraform/terraform.tfvars
+hcloud_token = "<my api token>"
+```
 
-**7.** Create an ED25519 SSH key pair and save them as the two Terraform Cloud variables `ssh_public_key` and `ssh_private_key`:
+**4.** Create an ED25519 SSH key pair and save them in the `terraform/terraform.tfvars` file:
 
 ```bash
 ssh-keygen -t ed25519 -f ~/.ssh/my-platform
@@ -50,7 +58,67 @@ cat ~/.ssh/my-platform.pub # public key
 cat ~/.ssh/my-platform # private key
 ```
 
-**8.** Push to `master`, triggering GitHub Actions to build and deploy the platform using Packer, Terraform and Argo CD.
+```hcl
+# terraform/terraform.tfvars
+hcloud_token = "<my api token>"
+ssh_public_key = "<public key>"
+ssh_private_key = <<EOF
+---BEGIN OPENSSH PRIVATE KEY-----
+...
+-----END OPENSSH PRIVATE KEY-----
+EOF
+```
+
+**5.** Generate the VM images for the Hetzner Cloud cluster:
+
+```bash
+export HCLOUD_TOKEN=<my api token>
+./scripts/packer.sh
+```
+
+**6.** Run Terraform to create the Hetzner Cloud cluster:
+
+```bash
+cd terraform
+terraform init
+terraform apply
+```
+
+**7.** Get the kubeconfig file from the Terraform output:
+
+```bash
+terraform output -raw kubeconfig > /tmp/hetzner-kubeconfig
+```
+
+See [Configure access via kubectl](#configure-access-via-kubectl) for more details.
+
+## Option 2: Terraform Cloud
+
+**1.** Sign up for Terraform Cloud (free), and create a project named `platform`.
+Terraform Cloud username/organization should be the same as your GitHub username/organization.
+If not, you will need to edit `.github/workflows/deploy.yml` to use the correct organization.
+
+**2.** Run this command to create a Hetzner Cloud context for the project (requires Hetzner CLI):
+
+```bash
+hcloud context create platform
+```
+
+**3.** Save your Hetzner Cloud API token as both GitHub secret named `HCLOUD_TOKEN`
+and as a Terraform Cloud variable with name `hcloud_token`.
+
+**4.** Get API token from Terraform Cloud and save as GitHub secret with name `TF_API_TOKEN`.
+
+**5.** Create an ED25519 SSH key pair and save them as the two Terraform Cloud variables `ssh_public_key` and `ssh_private_key`:
+
+```bash
+ssh-keygen -t ed25519 -f ~/.ssh/my-platform
+cat ~/.ssh/my-platform.pub # public key
+cat ~/.ssh/my-platform # private key
+```
+
+**6.** Push to `master`, triggering GitHub Actions to build and deploy the platform using Packer, Terraform and Argo CD.
+Remember to enable GitHub Actions for your forked repository.
 
 ## Next steps
 
@@ -69,6 +137,12 @@ export KUBECONFIG=~/.kube/config:/tmp/hetzner-kubeconfig
 kubectl config view --flatten > ~/.kube/config
 
 kubectl config use-context k3s
+```
+
+If you are using Terraform Cloud, you will need to authenticate against Terraform Cloud with the following command:
+
+```bash
+terraform login
 ```
 
 ### Configure Traefik to use your domain

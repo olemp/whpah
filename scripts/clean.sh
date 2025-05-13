@@ -91,7 +91,7 @@ spec:
     metadata:
       name: '{{.path.basename}}'
       labels:
-        bakseter.net/type: '{{trimSuffix "s" (index .path.segments 1)}}'
+        app.kubernetes.io/component: '{{if eq (index .path.segments 1) "applications"}}app{{else}}addon{{end}}'
     spec:
       project: default
       sources:

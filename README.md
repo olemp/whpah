@@ -24,13 +24,13 @@ This is what you get:
 
 **1.** Fork this repository.
 
-**1.** Run the script `./scripts/clean.sh` to get a base version of the platform:
+**2.** Run the script `./scripts/clean.sh` to get a base version of the platform:
 
 ```bash
 ./scripts/clean.sh
 ```
 
-**1.** Create a Hetzner Cloud project, and get an API token with read/write access.
+**3.** Create a Hetzner Cloud project, and get an API token with read/write access.
 You will use this token later.
 
 ```bash
@@ -41,7 +41,7 @@ hcloud context create platform
 
 **1.** Install [Terraform](https://developer.hashicorp.com/terraform/install) and [Packer](https://developer.hashicorp.com/packer/tutorials/docker-get-started/get-started-install-cli).
 
-**1.** Remove the entire `.github` folder from the repository:
+**2.** Remove the entire `.github` folder from the repository:
 
 ```bash
 rm -rf .github
@@ -54,7 +54,7 @@ Put your Hetzner Cloud API token in a file name `terraform.tfvars` under the `te
 hcloud_token = "<my api token>"
 ```
 
-**1.** Create an ED25519 SSH key pair and save them in the `terraform/terraform.tfvars` file:
+**3.** Create an ED25519 SSH key pair and save them in the `terraform/terraform.tfvars` file:
 
 ```bash
 ssh-keygen -t ed25519 -f ~/.ssh/my-platform
@@ -73,14 +73,14 @@ ssh_private_key = <<EOF
 EOF
 ```
 
-**1.** Generate the VM images for the Hetzner Cloud cluster:
+**4.** Generate the VM images for the Hetzner Cloud cluster:
 
 ```bash
 export HCLOUD_TOKEN=<my api token>
 ./scripts/packer.sh
 ```
 
-**1.** Run Terraform to create the Hetzner Cloud cluster:
+**5.** Run Terraform to create the Hetzner Cloud cluster:
 
 ```bash
 cd terraform
@@ -88,7 +88,7 @@ terraform init
 terraform apply
 ```
 
-**1.** Get the kubeconfig file from the Terraform output:
+**6.** Get the kubeconfig file from the Terraform output:
 
 ```bash
 terraform output -raw kubeconfig > /tmp/hetzner-kubeconfig
@@ -102,12 +102,12 @@ See [Configure access via kubectl](#configure-access-via-kubectl) for more detai
 Terraform Cloud username/organization should be the same as your GitHub username/organization.
 If not, you will need to edit `.github/workflows/deploy.yml` to use the correct organization.
 
-**1.** Save your Hetzner Cloud API token as both GitHub secret named `HCLOUD_TOKEN`
+**2.** Save your Hetzner Cloud API token as both GitHub secret named `HCLOUD_TOKEN`
 and as a Terraform Cloud variable with name `hcloud_token`.
 
-**1.** Get API token from Terraform Cloud and save as GitHub secret with name `TF_API_TOKEN`.
+**3.** Get API token from Terraform Cloud and save as GitHub secret with name `TF_API_TOKEN`.
 
-**1.** Create an ED25519 SSH key pair and save them as the two Terraform Cloud variables `ssh_public_key` and `ssh_private_key`:
+**4.** Create an ED25519 SSH key pair and save them as the two Terraform Cloud variables `ssh_public_key` and `ssh_private_key`:
 
 ```bash
 ssh-keygen -t ed25519 -f ~/.ssh/my-platform
@@ -115,7 +115,7 @@ cat ~/.ssh/my-platform.pub # public key
 cat ~/.ssh/my-platform # private key
 ```
 
-**1.** Push to `master`, triggering GitHub Actions to build and deploy the platform using Packer, Terraform and Argo CD.
+**5.** Push to `master`, triggering GitHub Actions to build and deploy the platform using Packer, Terraform and Argo CD.
 Remember to enable GitHub Actions for your forked repository.
 
 ## Next steps
@@ -147,14 +147,14 @@ terraform login
 
 **1.** Buy a domain.
 
-**1.** Create a DNS A record pointing to the external IP address(es) of Traefik's load balancer using your domain registrar.
+**2.** Create a DNS A record pointing to the external IP address(es) of Traefik's load balancer using your domain registrar.
 You can get the external IP address(es) with the following command:
 
 ```bash
 kubectl -n traefik get service traefik -o wide
 ```
 
-**1.** Wait for the DNS record to propagate.
+**3.** Wait for the DNS record to propagate.
 
 #### Caveats
 
@@ -178,7 +178,7 @@ kubectl -n argocd port-forward svc/argocd-server 8080:443
 
 **1.** Open Argo CD in your browser at `https://localhost:8080`.
 
-**1.** To log in, use the username `admin` and the password stored in the secret `argocd-initial-admin-secret` in the `argocd` namespace.
+**2.** To log in, use the username `admin` and the password stored in the secret `argocd-initial-admin-secret` in the `argocd` namespace.
 
 ```bash
 kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath='{.data.password}' | base64 -d

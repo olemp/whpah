@@ -122,25 +122,33 @@ Remember to enable GitHub Actions for your forked repository.
 
 ### Configure access via kubectl
 
+If you are using Terraform Cloud, you will need to first authenticate against Terraform Cloud with the following command:
+
+```bash
+terraform login
+```
+
+#### Method 1: overwrite default kubeconfig
+
+**WARNING:** This will overwrite your existing kubeconfig file.
+
 ```bash
 cd terraform
-
-# Method 1: overwrite default kubeconfig
-# WARNING: this will overwrite your existing kubeconfig file
-terraform output -raw kubeconfig > /tmp/hetzner-kubeconfig
-
-# Method 2: merge with existing kubeconfig
-terraform output -raw kubeconfig > /tmp/hetzner-kubeconfig
-export KUBECONFIG=~/.kube/config:/tmp/hetzner-kubeconfig
-kubectl config view --flatten > ~/.kube/config
+terraform output -raw kubeconfig > ~/.kube/config
 
 kubectl config use-context k3s
 ```
 
-If you are using Terraform Cloud, you will need to authenticate against Terraform Cloud with the following command:
+#### Method 2: merge kubeconfig files
 
 ```bash
-terraform login
+cd terraform
+terraform output -raw kubeconfig > /tmp/hetzner-kubeconfig
+
+export KUBECONFIG=~/.kube/config:/tmp/hetzner-kubeconfig
+kubectl config view --flatten > ~/.kube/config
+
+kubectl config use-context k3s
 ```
 
 ### Configure Traefik to use your domain
@@ -172,16 +180,16 @@ After DNS propagation, you can access Argo CD at `https://argocd.example.com` (r
 If you want to access Argo CD before DNS propagation, you can use port forwarding:
 
 ```bash
-# Make Argo CD server accessible on localhost
 kubectl -n argocd port-forward svc/argocd-server 8080:443
 ```
 
 **1.** Open Argo CD in your browser at `https://localhost:8080`.
 
 **2.** To log in, use the username `admin` and the password stored in the secret `argocd-initial-admin-secret` in the `argocd` namespace.
+You can get the password with the following command:
 
 ```bash
-kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath='{.data.password}' | base64 -d
+kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath='{.data.password}' | base64 -d ; echo
 ```
 
 # Deploy applications

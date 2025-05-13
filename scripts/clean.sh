@@ -1,14 +1,17 @@
 #!/bin/bash
 
-rm -rf manifests/applications/*
-rm -rf manifests/cluster-addons/monitoring
-rm -rf manifests/cluster-addons/oauth2-proxy
-rm -rf manifests/cluster-addons/vertical-pod-autoscaler
+cleanup() {
+    rm -rf manifests/applications/*
+    rm -rf manifests/cluster-addons/monitoring
+    rm -rf manifests/cluster-addons/oauth2-proxy
+    rm -rf manifests/cluster-addons/vertical-pod-autoscaler
+}
 
-# Get email from user
-read -r -p "Enter your email address (used for cert-manager): " email
+cert_manager() {
+    # Get email from user
+    read -r -p "Enter your email address (used for cert-manager): " email
 
-cat <<EOF > manifests/cluster-addons/cert-manager/templates/clusterissuer.yaml
+    cat <<EOF > manifests/cluster-addons/cert-manager/templates/clusterissuer.yaml
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
@@ -24,11 +27,13 @@ spec:
           ingress:
             ingressClassName: traefik
 EOF
+}
 
-read -r -p "What is the domain name for your cluster? (e.g. example.com, used for Argo CD): " domain_name
-read -r -p "What is your GitHub repository name? (e.g. my-org/my-repo, used for Argo CD): " repo_name
+argocd() {
+    read -r -p "What is the domain name for your cluster? (e.g. example.com, used for Argo CD): " domain_name
+    read -r -p "What is your GitHub repository name? (e.g. my-org/my-repo, used for Argo CD): " repo_name
 
-cat <<EOF > terraform/extra-manifests/helm-chart.yaml.tpl
+    cat <<EOF > terraform/extra-manifests/helm-chart.yaml.tpl
 apiVersion: helm.cattle.io/v1
 kind: HelmChart
 metadata:
@@ -54,24 +59,7 @@ spec:
         enabled: false
 EOF
 
-cat <<EOF > manifests/cluster-addons/argocd/values.yaml
-argo-cd:
-  global:
-    domain: argocd.$domain_name
-
-    networkPolicy:
-      create: true
-
-  configs:
-    repositories:
-      argocd:
-        url: https://github.com/$repo_name.git
-
-    dex:
-      enabled: false
-EOF
-
-cat <<EOF > terraform/extra-manifests/applicationset.yaml.tpl
+    cat <<EOF > terraform/extra-manifests/applicationset.yaml.tpl
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
@@ -110,7 +98,24 @@ spec:
           - ServerSideApply=true
 EOF
 
-cat <<EOF > manifests/cluster-addons/argocd/templates/certificate.yaml
+    cat <<EOF > manifests/cluster-addons/argocd/values.yaml
+argo-cd:
+  global:
+    domain: argocd.$domain_name
+
+    networkPolicy:
+      create: true
+
+  configs:
+    repositories:
+      argocd:
+        url: https://github.com/$repo_name.git
+
+    dex:
+      enabled: false
+EOF
+
+    cat <<EOF > manifests/cluster-addons/argocd/templates/certificate.yaml
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
@@ -125,7 +130,7 @@ spec:
     kind: ClusterIssuer
 EOF
 
-cat <<EOF > manifests/cluster-addons/argocd/templates/ingressroute.yaml
+    cat <<EOF > manifests/cluster-addons/argocd/templates/ingressroute.yaml
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
@@ -154,3 +159,13 @@ spec:
   tls:
     secretName: ingress-tls
 EOF
+
+}
+
+main() {
+    cleanup
+    cert_manager
+    argocd
+}
+
+main

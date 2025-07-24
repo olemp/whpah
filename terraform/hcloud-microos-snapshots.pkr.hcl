@@ -1,6 +1,5 @@
 /*
  * Creates a MicroOS snapshot for Kube-Hetzner
- 
  */
 packer {
   required_plugins {

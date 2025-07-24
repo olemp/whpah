@@ -9,6 +9,7 @@ jobs:
     name: Build snapshots with Packer
     runs-on: ubuntu-latest
     env:
+      PACKER_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       PACKER_FILE: 'terraform/hcloud-microos-snapshots.pkr.hcl'
       HCLOUD_TOKEN: ${{ secrets.HCLOUD_TOKEN }}
     steps:

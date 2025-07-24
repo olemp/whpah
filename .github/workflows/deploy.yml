@@ -43,7 +43,7 @@ jobs:
     concurrency:
       group: 'terraform'
     env:
-      TF_CLOUD_ORGANIZATION: ${{ github.repository_owner }}
+      TF_CLOUD_ORGANIZATION: whpah
       TF_API_TOKEN: ${{ secrets.TF_API_TOKEN }}
     steps:
       - name: Checkout repository

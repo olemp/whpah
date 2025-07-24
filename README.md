@@ -37,66 +37,7 @@ You will use this token later.
 hcloud context create platform
 ```
 
-## Option 1: Local Terraform
-
-**1.** Install [Terraform](https://developer.hashicorp.com/terraform/install) and [Packer](https://developer.hashicorp.com/packer/tutorials/docker-get-started/get-started-install-cli).
-
-**2.** Remove the entire `.github` folder from the repository:
-
-```bash
-rm -rf .github
-```
-
-Put your Hetzner Cloud API token in a file name `terraform.tfvars` under the `terraform` folder:
-
-```hcl
-# terraform/terraform.tfvars
-hcloud_token = "<my api token>"
-```
-
-**3.** Create an ED25519 SSH key pair and save them in the `terraform/terraform.tfvars` file:
-
-```bash
-ssh-keygen -t ed25519 -f ~/.ssh/my-platform
-cat ~/.ssh/my-platform.pub # public key
-cat ~/.ssh/my-platform # private key
-```
-
-```hcl
-# terraform/terraform.tfvars
-hcloud_token = "<my api token>"
-ssh_public_key = "<public key>"
-ssh_private_key = <<EOF
----BEGIN OPENSSH PRIVATE KEY-----
-...
------END OPENSSH PRIVATE KEY-----
-EOF
-```
-
-**4.** Generate the VM images for the Hetzner Cloud cluster:
-
-```bash
-export HCLOUD_TOKEN=<my api token>
-./scripts/packer.sh
-```
-
-**5.** Run Terraform to create the Hetzner Cloud cluster:
-
-```bash
-cd terraform
-terraform init
-terraform apply
-```
-
-**6.** Get the kubeconfig file from the Terraform output:
-
-```bash
-terraform output -raw kubeconfig > /tmp/hetzner-kubeconfig
-```
-
-See [Configure access via kubectl](#configure-access-via-kubectl) for more details.
-
-## Option 2: Terraform Cloud
+## Terraform Cloud
 
 **1.** Sign up for Terraform Cloud (free), and create a project named `platform`.
 Terraform Cloud username/organization should be the same as your GitHub username/organization.

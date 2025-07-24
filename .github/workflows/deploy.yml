@@ -4,9 +4,6 @@ on:
   push:
     branches: [master]
 
-env:
-  PROJECT_NAME: 'platform'
-
 jobs:
   packer:
     name: Build snapshots with Packer
@@ -43,6 +40,7 @@ jobs:
     concurrency:
       group: 'terraform'
     env:
+      TF_CLOUD_WORKSPACE: whpah
       TF_CLOUD_ORGANIZATION: whpah
       TF_API_TOKEN: ${{ secrets.TF_API_TOKEN }}
     steps:
@@ -53,14 +51,14 @@ jobs:
         uses: hashicorp/tfc-workflows-github/actions/upload-configuration@v1.3.2
         id: apply-upload
         with:
-          workspace: ${{ env.PROJECT_NAME }}
+          workspace: ${{ env.TF_CLOUD_WORKSPACE }}
           directory: 'terraform'
 
       - name: Create Terraform run
         uses: hashicorp/tfc-workflows-github/actions/create-run@v1.3.2
         id: apply-run
         with:
-          workspace: ${{ env.PROJECT_NAME }}
+          workspace: ${{ env.TF_CLOUD_WORKSPACE }}
           configuration_version: ${{ steps.apply-upload.outputs.configuration_version_id }}
 
       - name: Apply Terraform changes
